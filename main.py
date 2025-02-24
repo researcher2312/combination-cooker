@@ -25,6 +25,41 @@ class Block:
     def display(self):
         display_image(self.x, self.y, self.image)
 
+    def set_coordinates(self, coords):
+        self.x, self.y = coords
+
+
+class MouseDrag:
+    def __init__(self, clickable_blocks):
+        self.clicked = False
+        self.dragged = None
+        self.blocks = clickable_blocks
+        self.dx = 0
+        self.dy = 0
+
+    def start_dragging(self):
+        for block in self.blocks:
+            dx = px.mouse_x - block.x
+            dy = px.mouse_y - block.y
+            if dx > 0 and dx < 16 and dy > 0 and dy < 16:
+                self.clicked = True
+                self.dragged = block
+                self.dx = dx
+                self.dy = dy
+
+    def drag(self):
+        self.dragged.x = px.mouse_x - self.dx
+        self.dragged.y = px.mouse_y - self.dy
+
+    def handle_click(self, button_pressed):
+        if button_pressed:
+            if self.clicked:
+                self.drag()
+            else:
+                self.start_dragging()
+        else:
+            self.clicked = False
+
 
 class App:
     def __init__(self):
@@ -32,18 +67,14 @@ class App:
         px.mouse(True)
         px.load("resources.pyxres")
         self.items = [Block(item) for item in items]
+        self.clicker = MouseDrag(self.items)
         px.playm(0)
         px.run(self.update, self.draw)
 
     def update(self):
         if px.btnp(px.KEY_Q):
             px.quit()
-        if px.btnp(px.MOUSE_BUTTON_LEFT):
-            for item in items:
-                dx = item.x - px.mouse_x
-                dy = item.y - px.mouse_y
-                if dx < 16 and dy < 16:
-                    item.x
+        self.clicker.handle_click(px.btn(px.MOUSE_BUTTON_LEFT))
 
     def draw(self):
         px.cls(white)
