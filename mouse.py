@@ -9,13 +9,15 @@ class MouseDrag:
         self.dy = 0
 
     def start_dragging(self):
-        for block in self.blocks:
+        for block in reversed(self.blocks):
             dx = px.mouse_x - block.x
             dy = px.mouse_y - block.y
             if dx > 0 and dx < 16 and dy > 0 and dy < 16:
                 self.dragged = block
+                self.move_to_back(block)
                 self.dx = dx
                 self.dy = dy
+                break
 
     def drag(self):
         self.dragged.x = px.mouse_x - self.dx
@@ -29,3 +31,8 @@ class MouseDrag:
                 self.start_dragging()
         else:
             self.dragged = None
+
+    def move_to_back(self, item):
+        self.blocks.remove(item)
+        self.blocks.append(item)
+        

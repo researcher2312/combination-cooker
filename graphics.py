@@ -16,4 +16,3 @@ class Block:
 
     def set_coordinates(self, coords):
         self.x, self.y = coords
-
