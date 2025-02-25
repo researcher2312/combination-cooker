@@ -1,8 +1,25 @@
 import pyxel as px
 
 
-def display_image(x: int, y: int, image):
-    px.blt(x, y, 0, image[0], image[1], 16, 16, image[2])
+class Image:
+    def __init__(self, x, y, bg_color):
+        self.sprite_x = x
+        self.sprite_y = y
+        self.bg_color = bg_color
+
+    def display(self, x: int, y: int):
+        px.blt(x, y, 0, self.sprite_x, self.sprite_y, 16, 16, self.bg_color)
+
+
+class Slot:
+    def __init__(self, len, x, y):
+        self.len = len
+        self.x = x
+        self.y = y
+        self.col = px.COLOR_BROWN
+
+    def display(self):
+        px.rectb(self.x, self.y, self.len, self.len, self.col)
 
 
 class Block:
@@ -12,7 +29,7 @@ class Block:
         self.image = image
 
     def display(self):
-        display_image(self.x, self.y, self.image)
+        self.image.display(self.x, self.y)
 
     def set_coordinates(self, coords):
         self.x, self.y = coords
