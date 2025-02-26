@@ -23,10 +23,11 @@ class Slot:
 
 
 class Block:
-    def __init__(self, image, x=0, y=0):
+    def __init__(self, image, name, x=0, y=0):
         self.x = x
         self.y = y
         self.image = image
+        self.name = name
 
     def display(self):
         self.image.display(self.x, self.y)
