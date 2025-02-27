@@ -19,7 +19,7 @@ class MouseDrag:
 
     def start_dragging(self):
         self.dragged = self.find_overlapping()
-        if self.dragged != None:
+        if self.dragged is not None:
             self.move_to_back(self.dragged)
 
     def drag(self):

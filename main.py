@@ -37,7 +37,7 @@ class App:
         self.cooker.display()
         self.button.display()
         overlapped_block = self.clicker.find_overlapping()
-        if overlapped_block != None:
+        if overlapped_block is not None:
             px.text(130, 110, overlapped_block.name, px.COLOR_BLACK)
         for item in self.items:
             item.display()

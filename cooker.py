@@ -1,4 +1,3 @@
-import pyxel as px
 from graphics import Slot
 
 
@@ -19,15 +18,12 @@ class Cooker:
                 dx = item.x - slot.x
                 dy = item.y - slot.y
                 if dx > -8 and dx < 24 and dy > -8 and dy < 24:
-                        slot.insert_item(item)
+                    slot.insert_item(item)
 
     def check_item_removed(self):
         for slot in [self.left_field, self.right_field]:
-            if slot.held_item != None:
+            if slot.held_item is not None:
                 dx = slot.held_item.x - slot.x
                 dy = slot.held_item.y - slot.y
                 if dx < -8 or dx > 24 or dy < -8 or dy > 24:
                     slot.held_item = None
-
-
-         
