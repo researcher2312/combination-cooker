@@ -1,6 +1,6 @@
 import pyxel as px
 from mouse import MouseDrag
-from graphics import Block, Image, Slot
+from graphics import Block, Image, Button
 from cooker import Cooker
 
 apple = Image(16, 0, px.COLOR_DARK_BLUE)
@@ -20,6 +20,7 @@ class App:
         self.items = [Block(item, name) for item, name in zip(items, item_names)]
         self.clicker = MouseDrag(self.items)
         self.cooker = Cooker()
+        self.button = Button(50, 20, 100, 30)
         px.playm(0)
         px.run(self.update, self.draw)
 
@@ -27,14 +28,17 @@ class App:
         if px.btnp(px.KEY_Q):
             px.quit()
         self.clicker.handle_click(px.MOUSE_BUTTON_LEFT)
-        self.cooker.bring_to_slot(self.items)
+        self.cooker.check_item_removed()
+        self.cooker.find_close_item(self.items)
 
     def draw(self):
         px.cls(px.COLOR_WHITE)
         px.text(55, 41, "Cooking game", px.frame_count % 16)
-        if self.clicker.dragged != None:
-            px.text(130, 110, self.clicker.dragged.name, px.COLOR_BLACK)
         self.cooker.display()
+        self.button.display()
+        overlapped_block = self.clicker.find_overlapping()
+        if overlapped_block != None:
+            px.text(130, 110, overlapped_block.name, px.COLOR_BLACK)
         for item in self.items:
             item.display()
 

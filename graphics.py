@@ -17,9 +17,22 @@ class Slot:
         self.x = x
         self.y = y
         self.col = px.COLOR_BROWN
+        self.held_item = None
 
     def display(self):
         px.rectb(self.x, self.y, self.len, self.len, self.col)
+
+    def insert_item(self, item):
+        self.throw_out_item()
+        self.held_item = item
+        item.x = self.x + 1
+        item.y = self.y + 1
+
+    def throw_out_item(self):
+        if self.held_item != None:
+            self.held_item.x += 17
+            self.held_item.y -= 17
+            self.held_item = None
 
 
 class Block:
@@ -34,3 +47,22 @@ class Block:
 
     def set_coordinates(self, coords):
         self.x, self.y = coords
+
+
+class Button:
+    def __init__(self, x, y, w, h):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.text = "COOK"
+        self.col = px.COLOR_BROWN
+        self.text_x = x + w/2
+        self.text_y = y + h/2
+
+    def display(self):
+        px.rect(self.x, self.y, self.w, self.h, self.col)
+        px.text(self.text_x, self.text_y, self.text, px.COLOR_BLACK)
+
+
+    
