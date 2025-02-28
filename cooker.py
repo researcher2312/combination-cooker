@@ -2,6 +2,12 @@ from graphics import Slot
 from cookbook import Cookbook
 
 
+class Ingredient:
+    def __init__(self, image, name):
+        self.image = image
+        self.name = name
+
+
 class Cooker:
     def __init__(self):
         self.left_field = Slot(40, 80, 18)
