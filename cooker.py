@@ -3,9 +3,9 @@ from graphics import Slot
 
 class Cooker:
     def __init__(self):
-        self.left_field = Slot(18, 40, 80)
-        self.right_field = Slot(18, 80, 80)
-        self.result_field = Slot(18, 120, 80)
+        self.left_field = Slot(40, 80, 18)
+        self.right_field = Slot(80, 80, 18)
+        self.result_field = Slot(120, 80, 18)
 
     def display(self):
         self.left_field.display()

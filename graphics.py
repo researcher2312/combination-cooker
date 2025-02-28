@@ -1,21 +1,41 @@
 import pyxel as px
 
 
-class Image:
-    def __init__(self, x, y, bg_color):
-        self.sprite_x = x
-        self.sprite_y = y
-        self.bg_color = bg_color
-
-    def display(self, x: int, y: int):
-        px.blt(x, y, 0, self.sprite_x, self.sprite_y, 16, 16, self.bg_color)
+def get_text_size(text: str) -> int:
+    return (len(text) * 4 - 1, 5)
 
 
-class Slot:
-    def __init__(self, len, x, y):
-        self.len = len
+class Rect:
+    def __init__(self, x=0, y=0):
         self.x = x
         self.y = y
+
+    def display(self):
+        self.image.display(self.x, self.y)
+
+    def set_coordinates(self, x, y):
+        self.x, self.y = x, y
+
+    def hovered(self):
+        return 0 < px.mouse_x - self.x < self.w and 0 < px.mouse_y - self.y < self.h
+
+
+class Image(Rect):
+    def __init__(self, imx, imy, bg_color, name, x=0, y=0):
+        super().__init__(x, y)
+        self.sprite_x = imx
+        self.sprite_y = imy
+        self.bg_color = bg_color
+        self.name = name
+
+    def display(self):
+        px.blt(self.x, self.y, 0, self.sprite_x, self.sprite_y, 16, 16, self.bg_color)
+
+
+class Slot(Rect):
+    def __init__(self, x, y, len):
+        super().__init__(x, y)
+        self.len = len
         self.col = px.COLOR_BROWN
         self.held_item = None
 
@@ -35,31 +55,31 @@ class Slot:
             self.held_item = None
 
 
-class Block:
-    def __init__(self, image, name, x=0, y=0):
-        self.x = x
-        self.y = y
-        self.image = image
-        self.name = name
-
-    def display(self):
-        self.image.display(self.x, self.y)
-
-    def set_coordinates(self, coords):
-        self.x, self.y = coords
-
-
-class Button:
+class Button(Rect):
     def __init__(self, x, y, w, h):
-        self.x = x
-        self.y = y
+        super().__init__(x, y)
         self.w = w
         self.h = h
+        self.clicked = False
         self.text = "COOK"
         self.col = px.COLOR_BROWN
-        self.text_x = x + w / 2
-        self.text_y = y + h / 2
+        tx, ty = get_text_size(self.text)
+        self.text_x = x + (w - tx) / 2
+        self.text_y = y + (h - ty) / 2
+
+    def update(self):
+        if self.hovered() and px.btn(px.MOUSE_BUTTON_LEFT):
+            self.clicked = True
+        else:
+            self.clicked = False
 
     def display(self):
+        if self.clicked:
+            self.col = px.COLOR_GRAY
+        else:
+            self.col = px.COLOR_BROWN
+        self.display_internal()
+
+    def display_internal(self):
         px.rect(self.x, self.y, self.w, self.h, self.col)
         px.text(self.text_x, self.text_y, self.text, px.COLOR_BLACK)

@@ -1,15 +1,14 @@
 import pyxel as px
 from mouse import MouseDrag
-from graphics import Block, Image, Button
+from graphics import Rect, Image, Button
 from cooker import Cooker
 
-apple = Image(16, 0, px.COLOR_DARK_BLUE)
-knife = Image(0, 0, px.COLOR_DARK_BLUE)
-flour = Image(32, 0, px.COLOR_DARK_BLUE)
-milk = Image(0, 16, px.COLOR_DARK_BLUE)
-sugar = Image(16, 16, px.COLOR_PINK)
+apple = Image(16, 0, px.COLOR_DARK_BLUE, "apple")
+knife = Image(0, 0, px.COLOR_DARK_BLUE, "knife")
+flour = Image(32, 0, px.COLOR_DARK_BLUE, "flour")
+milk = Image(0, 16, px.COLOR_DARK_BLUE, "milk")
+sugar = Image(16, 16, px.COLOR_PINK, "sugar")
 items = [apple, knife, flour, milk, sugar]
-item_names = ["apple", "cut", "flour", "milk", "sugar"]
 
 
 class App:
@@ -17,16 +16,17 @@ class App:
         px.init(160, 120, title="Cooking Game")
         px.mouse(True)
         px.load("resources.pyxres")
-        self.items = [Block(item, name) for item, name in zip(items, item_names)]
+        self.items = items
         self.clicker = MouseDrag(self.items)
         self.cooker = Cooker()
-        self.button = Button(50, 20, 100, 30)
+        self.button = Button(50, 20, 30, 10)
         px.playm(0)
         px.run(self.update, self.draw)
 
     def update(self):
         if px.btnp(px.KEY_Q):
             px.quit()
+        self.button.update()
         self.clicker.handle_click(px.MOUSE_BUTTON_LEFT)
         self.cooker.check_item_removed()
         self.cooker.find_close_item(self.items)
