@@ -56,10 +56,11 @@ class Slot(Rect):
 
 
 class Button(Rect):
-    def __init__(self, x, y, w, h):
+    def __init__(self, x, y, w, h, action=None):
         super().__init__(x, y)
         self.w = w
         self.h = h
+        self.action = action
         self.clicked = False
         self.text = "COOK"
         self.col = px.COLOR_BROWN
@@ -69,6 +70,8 @@ class Button(Rect):
 
     def update(self):
         if self.hovered() and px.btn(px.MOUSE_BUTTON_LEFT):
+            if not self.clicked and self.action is not None:
+                self.action()
             self.clicked = True
         else:
             self.clicked = False

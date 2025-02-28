@@ -3,12 +3,13 @@ from mouse import MouseDrag
 from graphics import Rect, Image, Button
 from cooker import Cooker
 
-apple = Image(16, 0, px.COLOR_DARK_BLUE, "apple")
-knife = Image(0, 0, px.COLOR_DARK_BLUE, "knife")
-flour = Image(32, 0, px.COLOR_DARK_BLUE, "flour")
-milk = Image(0, 16, px.COLOR_DARK_BLUE, "milk")
-sugar = Image(16, 16, px.COLOR_PINK, "sugar")
-items = [apple, knife, flour, milk, sugar]
+items = [
+    Image(16, 0, px.COLOR_DARK_BLUE, "apple"),
+    Image(0, 0, px.COLOR_DARK_BLUE, "knife"),
+    Image(32, 0, px.COLOR_DARK_BLUE, "flour"),
+    Image(0, 16, px.COLOR_DARK_BLUE, "milk"),
+    Image(16, 16, px.COLOR_PINK, "sugar"),
+]
 
 
 class App:
@@ -19,7 +20,7 @@ class App:
         self.items = items
         self.clicker = MouseDrag(self.items)
         self.cooker = Cooker()
-        self.button = Button(50, 20, 30, 10)
+        self.button = Button(50, 20, 30, 10, self.cooker.check_recipe)
         px.playm(0)
         px.run(self.update, self.draw)
 

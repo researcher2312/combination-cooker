@@ -1,4 +1,5 @@
 from graphics import Slot
+from cookbook import Cookbook
 
 
 class Cooker:
@@ -6,6 +7,7 @@ class Cooker:
         self.left_field = Slot(40, 80, 18)
         self.right_field = Slot(80, 80, 18)
         self.result_field = Slot(120, 80, 18)
+        self.book = Cookbook()
 
     def display(self):
         self.left_field.display()
@@ -27,3 +29,13 @@ class Cooker:
                 dy = slot.held_item.y - slot.y
                 if dx < -8 or dx > 24 or dy < -8 or dy > 24:
                     slot.held_item = None
+
+    def get_items(self):
+        return [
+            slot.held_item.name
+            for slot in [self.left_field, self.right_field]
+            if slot.held_item is not None
+        ]
+
+    def check_recipe(self):
+        print(self.book.combination_possible("cut", self.get_items()))
