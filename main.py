@@ -1,7 +1,7 @@
 import pyxel as px
 from mouse import MouseDrag
 from graphics import Rect, Image, Button
-from cooker import Cooker
+from cooker import CookingStation
 
 items = [
     Image(16, 0, px.COLOR_DARK_BLUE, "apple"),
@@ -19,7 +19,7 @@ class App:
         px.load("resources.pyxres")
         self.items = items
         self.clicker = MouseDrag(self.items)
-        self.cooker = Cooker()
+        self.cooker = CookingStation(80, 80, "fry")
         self.button = Button(50, 20, 30, 10, self.cooker.check_recipe)
         px.playm(0)
         px.run(self.update, self.draw)

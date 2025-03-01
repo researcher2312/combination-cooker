@@ -37,6 +37,11 @@ class Cookbook:
             for r in recipes
         )
 
+    def get_combination(self, action: str, ingredients: List) -> str:
+        for r in recipes:
+            if r["action"] == action and sorted(r["ingredients"]) == sorted(ingredients):
+                return r["name"]
+
     def test_combinations(self):
         assert self.combination_possible("cut", ["apple"])
         assert self.combination_possible("mix", ["water", "flour"])

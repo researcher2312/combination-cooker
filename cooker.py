@@ -1,6 +1,7 @@
 from graphics import Slot
 from cookbook import Cookbook
 
+cookbook = Cookbook()
 
 class Ingredient:
     def __init__(self, image, name):
@@ -8,28 +9,26 @@ class Ingredient:
         self.name = name
 
 
-class Cooker:
-    def __init__(self):
-        self.left_field = Slot(40, 80, 18)
-        self.right_field = Slot(80, 80, 18)
+class CookingStation:
+    def __init__(self, x, y, action, no_fields=2):
+        self.fields = [Slot(x+i*30, y, 18) for i in range(no_fields)]
         self.result_field = Slot(120, 80, 18)
-        self.book = Cookbook()
+        self.action = action
 
     def display(self):
-        self.left_field.display()
-        self.right_field.display()
-        self.result_field.display()
+        for field in self.fields:
+            field.display()
 
     def find_close_item(self, items):
         for item in items:
-            for slot in [self.left_field, self.right_field]:
+            for slot in self.fields:
                 dx = item.x - slot.x
                 dy = item.y - slot.y
                 if dx > -8 and dx < 24 and dy > -8 and dy < 24:
                     slot.insert_item(item)
 
     def check_item_removed(self):
-        for slot in [self.left_field, self.right_field]:
+        for slot in self.fields:
             if slot.held_item is not None:
                 dx = slot.held_item.x - slot.x
                 dy = slot.held_item.y - slot.y
@@ -39,9 +38,9 @@ class Cooker:
     def get_items(self):
         return [
             slot.held_item.name
-            for slot in [self.left_field, self.right_field]
+            for slot in self.fields
             if slot.held_item is not None
         ]
 
     def check_recipe(self):
-        print(self.book.combination_possible("cut", self.get_items()))
+        print(cookbook.get_combination(self.action, self.get_items()))
