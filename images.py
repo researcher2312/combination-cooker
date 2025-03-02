@@ -20,6 +20,7 @@ images = {
     "caramelized apple": (0, 64, px.COLOR_DARK_BLUE),
 }
 
+
 def get_images(names: list[str]):
     print(names)
     return [Image(*images[name], name) for name in names]

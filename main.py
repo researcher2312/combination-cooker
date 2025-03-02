@@ -9,10 +9,11 @@ cooking_stations = [
     CookingStation(80, 20, "boil"),
     CookingStation(90, 50, "fry"),
     CookingStation(10, 90, "bake"),
-    CookingStation(80, 90, "mix")
+    CookingStation(80, 90, "mix"),
 ]
 
 starting_items = ["apple", "flour", "sugar", "water"]
+
 
 class App:
     def __init__(self):

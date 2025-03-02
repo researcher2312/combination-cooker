@@ -4,9 +4,11 @@ import pyxel as px
 def get_text_size(text: str) -> int:
     return (len(text) * 4 - 1, 5)
 
+
 def align_text_right(x: str, y: str, text: str):
     text_x, text_y = get_text_size(text)
-    px.text(x-text_x, 110, text, px.COLOR_BLACK)
+    px.text(x - text_x, 110, text, px.COLOR_BLACK)
+
 
 class Rect:
     def __init__(self, x=0, y=0):
@@ -25,6 +27,7 @@ class Rect:
     def clicked(self):
         return self.hovered() and px.btn(px.MOUSE_BUTTON_LEFT)
 
+
 class Textbox(Rect):
     def __init__(self, x, y, text):
         super().__init__(x, y)
@@ -32,6 +35,7 @@ class Textbox(Rect):
 
     def display(self):
         px.text(self.x, self.y, self.text, px.COLOR_BLACK)
+
 
 class Image(Rect):
     def __init__(self, imx, imy, bg_color, name, x=0, y=0):

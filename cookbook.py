@@ -39,7 +39,9 @@ class Cookbook:
 
     def get_combination(self, action: str, ingredients: List) -> str:
         for r in recipes:
-            if r["action"] == action and sorted(r["ingredients"]) == sorted(ingredients):
+            if r["action"] == action and sorted(r["ingredients"]) == sorted(
+                ingredients
+            ):
                 return r["name"]
 
     def test_combinations(self):

@@ -3,6 +3,7 @@ from cookbook import Cookbook
 
 cookbook = Cookbook()
 
+
 class Ingredient:
     def __init__(self, image, name):
         self.image = image
@@ -13,10 +14,10 @@ class CookingStation:
     def __init__(self, x, y, action, n_fields=2):
         self.x = x
         self.y = y
-        self.fields = [Slot(x+i*30, y, 18) for i in range(n_fields)]
+        self.fields = [Slot(x + i * 30, y, 18) for i in range(n_fields)]
         self.result_field = Slot(120, 80, 18)
         self.action = action
-        self.text = Textbox(x+17, y+20, action)
+        self.text = Textbox(x + 17, y + 20, action)
 
     def display(self):
         for field in self.fields:
@@ -42,9 +43,7 @@ class CookingStation:
 
     def get_items(self):
         return [
-            slot.held_item.name
-            for slot in self.fields
-            if slot.held_item is not None
+            slot.held_item.name for slot in self.fields if slot.held_item is not None
         ]
 
     def check_recipe(self):
