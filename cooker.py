@@ -1,5 +1,5 @@
-from graphics import Slot, Textbox
 from cookbook import Cookbook
+from graphics import Image, Slot, Textbox
 
 cookbook = Cookbook()
 
@@ -24,7 +24,7 @@ class CookingStation:
             field.display()
         self.text.display()
 
-    def find_close_item(self, items):
+    def find_close_item(self, items: list[Image]):
         for item in items:
             for slot in self.fields:
                 dx = item.x - slot.x
@@ -41,13 +41,13 @@ class CookingStation:
                 if dx < -8 or dx > 24 or dy < -8 or dy > 24:
                     slot.held_item = None
 
-    def get_items(self):
+    def get_item_names(self) -> list[str]:
         return [
             slot.held_item.name for slot in self.fields if slot.held_item is not None
         ]
 
     def check_recipe(self):
-        return cookbook.get_combination(self.action, self.get_items())
+        return cookbook.get_combination(self.action, self.get_item_names())
 
     def clear_values(self, items):
         for slot in self.fields:

@@ -1,5 +1,3 @@
-from typing import List
-
 actions = ["cut", "boil", "fry", "bake", "mix"]
 basic_ingredients = ["apple", "water", "flour", "sugar"]
 recipes = [
@@ -31,13 +29,13 @@ recipes = [
 
 
 class Cookbook:
-    def combination_possible(self, action: str, ingredients: List) -> bool:
+    def combination_possible(self, action: str, ingredients: list) -> bool:
         return any(
             r["action"] == action and sorted(r["ingredients"]) == sorted(ingredients)
             for r in recipes
         )
 
-    def get_combination(self, action: str, ingredients: List) -> str:
+    def get_combination(self, action: str, ingredients: list) -> str:
         for r in recipes:
             if r["action"] == action and sorted(r["ingredients"]) == sorted(
                 ingredients

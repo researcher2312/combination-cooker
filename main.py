@@ -1,15 +1,16 @@
 import pyxel as px
-from mouse import MouseDrag
-from graphics import Button, align_text_right
+
 from cooker import CookingStation
-from images import images, get_images
+from graphics import Button, align_text_right
+from images import get_images
+from mouse import MouseDrag
 
 cooking_stations = [
     CookingStation(10, 30, "cut"),
     CookingStation(80, 20, "boil"),
     CookingStation(90, 50, "fry"),
     CookingStation(10, 90, "bake"),
-    CookingStation(80, 90, "mix"),
+    CookingStation(80, 90, "mix", 3),
 ]
 
 starting_items = ["apple", "flour", "sugar", "water"]

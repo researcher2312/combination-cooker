@@ -1,5 +1,5 @@
 import pyxel as px
-from typing import List
+
 from graphics import Image
 
 images = {
@@ -21,6 +21,5 @@ images = {
 }
 
 
-def get_images(names: list[str]):
-    print(names)
+def get_images(names: list[str]) -> list[Image]:
     return [Image(*images[name], name) for name in names]
