@@ -1,29 +1,25 @@
 import pyxel as px
 from mouse import MouseDrag
-from graphics import Rect, Image, Button
+from graphics import Button, align_text_right
 from cooker import CookingStation
-
-items = [
-    Image(16, 0, px.COLOR_DARK_BLUE, "apple"),
-    Image(0, 0, px.COLOR_DARK_BLUE, "knife"),
-    Image(32, 0, px.COLOR_DARK_BLUE, "flour"),
-    Image(0, 16, px.COLOR_DARK_BLUE, "milk"),
-    Image(16, 16, px.COLOR_PINK, "sugar"),
-]
+from images import images, get_images
 
 cooking_stations = [
-    CookingStation(80, 30, "fry"),
-    CookingStation(80, 60, "boil"),
+    CookingStation(10, 30, "cut"),
+    CookingStation(80, 20, "boil"),
+    CookingStation(50, 50, "fry"),
+    CookingStation(10, 90, "bake"),
     CookingStation(80, 90, "mix")
 ]
 
+starting_items = ["apple", "flour", "sugar", "water"]
 
 class App:
     def __init__(self):
         px.init(160, 120, title="Cooking Game")
         px.mouse(True)
         px.load("resources.pyxres")
-        self.items = items
+        self.items = get_images(starting_items)
         self.clicker = MouseDrag(self.items)
         self.cookers = cooking_stations
         self.button = Button(50, 20, 30, 10, self.check_cookers)
@@ -32,7 +28,13 @@ class App:
 
     def check_cookers(self):
         for cooker in self.cookers:
-            cooker.check_recipe()
+            result = cooker.check_recipe()
+            if result is not None:
+                self.create_item(result)
+                cooker.clear_values(self.items)
+
+    def create_item(self, name: str):
+        self.items.extend(get_images([name]))
 
     def update(self):
         if px.btnp(px.KEY_Q):
@@ -51,7 +53,7 @@ class App:
         self.button.display()
         overlapped_block = self.clicker.find_overlapping()
         if overlapped_block is not None:
-            px.text(130, 110, overlapped_block.name, px.COLOR_BLACK)
+            align_text_right(150, 110, overlapped_block.name)
         for item in self.items:
             item.display()
 

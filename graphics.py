@@ -4,6 +4,9 @@ import pyxel as px
 def get_text_size(text: str) -> int:
     return (len(text) * 4 - 1, 5)
 
+def align_text_right(x: str, y: str, text: str):
+    text_x, text_y = get_text_size(text)
+    px.text(x-text_x, 110, text, px.COLOR_BLACK)
 
 class Rect:
     def __init__(self, x=0, y=0):
