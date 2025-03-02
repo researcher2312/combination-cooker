@@ -29,7 +29,8 @@ class CookingStation:
                 dx = item.x - slot.x
                 dy = item.y - slot.y
                 if dx > -8 and dx < 24 and dy > -8 and dy < 24:
-                    slot.insert_item(item)
+                    if not item.clicked():
+                        slot.insert_item(item)
 
     def check_item_removed(self):
         for slot in self.fields:

@@ -22,6 +22,9 @@ class Rect:
     def hovered(self):
         return 0 < px.mouse_x - self.x < self.w and 0 < px.mouse_y - self.y < self.h
 
+    def clicked(self):
+        return self.hovered() and px.btn(px.MOUSE_BUTTON_LEFT)
+
 class Textbox(Rect):
     def __init__(self, x, y, text):
         super().__init__(x, y)
@@ -37,6 +40,8 @@ class Image(Rect):
         self.sprite_y = imy
         self.bg_color = bg_color
         self.name = name
+        self.w = 16
+        self.h = 16
 
     def display(self):
         px.blt(self.x, self.y, 0, self.sprite_x, self.sprite_y, 16, 16, self.bg_color)
@@ -71,7 +76,7 @@ class Button(Rect):
         self.w = w
         self.h = h
         self.action = action
-        self.clicked = False
+        self.pressed = False
         self.text = "COOK"
         self.col = px.COLOR_BROWN
         tx, ty = get_text_size(self.text)
@@ -79,15 +84,15 @@ class Button(Rect):
         self.text_y = y + (h - ty) / 2
 
     def update(self):
-        if self.hovered() and px.btn(px.MOUSE_BUTTON_LEFT):
-            if not self.clicked and self.action is not None:
+        if self.clicked():
+            if not self.pressed and self.action is not None:
                 self.action()
-            self.clicked = True
+            self.pressed = True
         else:
-            self.clicked = False
+            self.pressed = False
 
     def display(self):
-        if self.clicked:
+        if self.pressed:
             self.col = px.COLOR_GRAY
         else:
             self.col = px.COLOR_BROWN

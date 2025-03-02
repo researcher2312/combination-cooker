@@ -7,7 +7,7 @@ from images import images, get_images
 cooking_stations = [
     CookingStation(10, 30, "cut"),
     CookingStation(80, 20, "boil"),
-    CookingStation(50, 50, "fry"),
+    CookingStation(90, 50, "fry"),
     CookingStation(10, 90, "bake"),
     CookingStation(80, 90, "mix")
 ]
