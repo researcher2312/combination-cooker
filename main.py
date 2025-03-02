@@ -47,7 +47,6 @@ class App:
 
     def draw(self):
         px.cls(px.COLOR_WHITE)
-        px.text(55, 41, "Cooking game", px.frame_count % 16)
         for cooker in self.cookers:
             cooker.display()
         self.button.display()

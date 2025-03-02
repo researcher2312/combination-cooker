@@ -22,6 +22,13 @@ class Rect:
     def hovered(self):
         return 0 < px.mouse_x - self.x < self.w and 0 < px.mouse_y - self.y < self.h
 
+class Textbox(Rect):
+    def __init__(self, x, y, text):
+        super().__init__(x, y)
+        self.text = text
+
+    def display(self):
+        px.text(self.x, self.y, self.text, px.COLOR_BLACK)
 
 class Image(Rect):
     def __init__(self, imx, imy, bg_color, name, x=0, y=0):
