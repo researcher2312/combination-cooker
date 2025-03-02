@@ -11,6 +11,12 @@ items = [
     Image(16, 16, px.COLOR_PINK, "sugar"),
 ]
 
+cooking_stations = [
+    CookingStation(80, 30, "fry"),
+    CookingStation(80, 60, "boil"),
+    CookingStation(80, 90, "mix")
+]
+
 
 class App:
     def __init__(self):
@@ -19,23 +25,29 @@ class App:
         px.load("resources.pyxres")
         self.items = items
         self.clicker = MouseDrag(self.items)
-        self.cooker = CookingStation(80, 80, "fry")
-        self.button = Button(50, 20, 30, 10, self.cooker.check_recipe)
+        self.cookers = cooking_stations
+        self.button = Button(50, 20, 30, 10, self.check_cookers)
         px.playm(0)
         px.run(self.update, self.draw)
+
+    def check_cookers(self):
+        for cooker in self.cookers:
+            cooker.check_recipe()
 
     def update(self):
         if px.btnp(px.KEY_Q):
             px.quit()
         self.button.update()
         self.clicker.handle_click(px.MOUSE_BUTTON_LEFT)
-        self.cooker.check_item_removed()
-        self.cooker.find_close_item(self.items)
+        for cooker in self.cookers:
+            cooker.check_item_removed()
+            cooker.find_close_item(self.items)
 
     def draw(self):
         px.cls(px.COLOR_WHITE)
         px.text(55, 41, "Cooking game", px.frame_count % 16)
-        self.cooker.display()
+        for cooker in self.cookers:
+            cooker.display()
         self.button.display()
         overlapped_block = self.clicker.find_overlapping()
         if overlapped_block is not None:

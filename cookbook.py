@@ -43,10 +43,11 @@ class Cookbook:
                 return r["name"]
 
     def test_combinations(self):
-        assert self.combination_possible("cut", ["apple"])
-        assert self.combination_possible("mix", ["water", "flour"])
-        assert self.combination_possible("mix", ["flour", "water"])
-        assert not self.combination_possible("mix", ["flour", "apple"])
+        assert self.get_combination("cut", ["apple"]) == "sliced apple"
+        assert self.get_combination("boil", ["apple"]) == "boiled apple"
+        assert self.get_combination("mix", ["water", "flour"]) == "dough"
+        assert self.get_combination("mix", ["flour", "water"]) == "dough"
+        assert not self.get_combination("mix", ["flour", "apple"])
         print("Cookbook test succesful")
 
 

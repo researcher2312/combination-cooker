@@ -43,4 +43,5 @@ class CookingStation:
         ]
 
     def check_recipe(self):
-        print(cookbook.get_combination(self.action, self.get_items()))
+        recipe = cookbook.get_combination(self.action, self.get_items())
+        print(f"{self.action} - {recipe}")
