@@ -1,5 +1,7 @@
+from json import dump
+
 actions = ["cut", "boil", "fry", "bake", "mix"]
-basic_ingredients = ["apple", "water", "flour", "sugar"]
+basic_ingredients = ["apple", "water", "flour", "sugar", "milk"]
 recipes = [
     {"name": "sliced apple", "action": "cut", "ingredients": ["apple"]},
     {"name": "boiled apple", "action": "boil", "ingredients": ["apple"]},
@@ -24,6 +26,20 @@ recipes = [
         "name": "caramelized apple",
         "action": "mix",
         "ingredients": ["sliced apple", "caramel"],
+    },
+    {
+        "name": "pancake dough",
+        "action": "mix",
+        "ingredients": ["milk", "flour", "sugar"],
+    },
+    {"name": "pancake", "action": "fry", "ingredients": ["pancake dough"]},
+    {"name": "hot milk", "action": "boil", "ingredients": ["milk"]},
+    {"name": "sweet milk", "action": "mix", "ingredients": ["milk", "sugar"]},
+    {"name": "pudding", "action": "boil", "ingredients": ["milk", "flour"]},
+    {
+        "name": "apple pudding",
+        "action": "mix",
+        "ingredients": ["pudding", "sliced apple"],
     },
 ]
 
@@ -54,3 +70,5 @@ class Cookbook:
 if __name__ == "__main__":
     cookbook = Cookbook()
     cookbook.test_combinations()
+    with open("recipes.json", "w") as file:
+        dump(recipes, file)

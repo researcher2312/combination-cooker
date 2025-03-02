@@ -1,6 +1,7 @@
 import pyxel as px
 
 from cooker import CookingStation
+from cookbook import basic_ingredients
 from graphics import Button, align_text_right
 from images import get_images
 from mouse import MouseDrag
@@ -13,15 +14,13 @@ cooking_stations = [
     CookingStation(80, 90, "mix", 3),
 ]
 
-starting_items = ["apple", "flour", "sugar", "water"]
-
 
 class App:
     def __init__(self):
         px.init(160, 120, title="Cooking Game")
         px.mouse(True)
         px.load("resources.pyxres")
-        self.items = get_images(starting_items)
+        self.items = get_images(basic_ingredients)
         self.clicker = MouseDrag(self.items)
         self.cookers = cooking_stations
         self.button = Button(50, 20, 30, 10, self.check_cookers)

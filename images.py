@@ -7,6 +7,7 @@ images = {
     "sugar": (16, 16, px.COLOR_PINK),
     "flour": (32, 0, px.COLOR_DARK_BLUE),
     "sliced apple": (48, 0, px.COLOR_DARK_BLUE),
+    "milk": (0, 16, px.COLOR_DARK_BLUE),
     "water": (32, 16, px.COLOR_PINK),
     "dough": (48, 16, px.COLOR_DARK_BLUE),
     "sweet dough": (0, 32, px.COLOR_DARK_BLUE),
@@ -18,6 +19,12 @@ images = {
     "apple chips": (32, 48, px.COLOR_DARK_BLUE),
     "apple compote": (48, 48, px.COLOR_DARK_BLUE),
     "caramelized apple": (0, 64, px.COLOR_DARK_BLUE),
+    "pancake dough": (16, 64, px.COLOR_DARK_BLUE),
+    "hot milk": (32, 64, px.COLOR_DARK_BLUE),
+    "pudding": (48, 64, px.COLOR_DARK_BLUE),
+    "apple pudding": (0, 80, px.COLOR_DARK_BLUE),
+    "pancake": (16, 80, px.COLOR_DARK_BLUE),
+    "apple pancake": (32, 80, px.COLOR_DARK_BLUE),
 }
 
 
