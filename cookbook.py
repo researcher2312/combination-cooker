@@ -1,14 +1,14 @@
 from json import dump
 
-actions = ["cut", "boil", "fry", "bake", "mix"]
-basic_ingredients = ["apple", "water", "flour", "sugar", "milk"]
+actions = ["cut", "boil", "fry", "bake", "add"]
+basic_ingredients = ["apple", "water", "flour", "sugar", "sugar", "milk"]
 recipes = [
     {"name": "sliced apple", "action": "cut", "ingredients": ["apple"]},
     {"name": "boiled apple", "action": "boil", "ingredients": ["apple"]},
-    {"name": "dough", "action": "mix", "ingredients": ["water", "flour"]},
+    {"name": "dough", "action": "add", "ingredients": ["water", "flour"]},
     {
         "name": "sweet dough",
-        "action": "mix",
+        "action": "add",
         "ingredients": ["water", "flour", "sugar"],
     },
     {
@@ -24,23 +24,29 @@ recipes = [
     {"name": "caramel", "action": "fry", "ingredients": ["sugar"]},
     {
         "name": "caramelized apple",
-        "action": "mix",
+        "action": "add",
         "ingredients": ["sliced apple", "caramel"],
     },
     {
         "name": "pancake dough",
-        "action": "mix",
+        "action": "add",
         "ingredients": ["milk", "flour", "sugar"],
     },
     {"name": "pancake", "action": "fry", "ingredients": ["pancake dough"]},
     {"name": "hot milk", "action": "boil", "ingredients": ["milk"]},
-    {"name": "sweet milk", "action": "mix", "ingredients": ["milk", "sugar"]},
+    {"name": "sweet milk", "action": "add", "ingredients": ["milk", "sugar"]},
     {"name": "pudding", "action": "boil", "ingredients": ["milk", "flour"]},
     {
         "name": "apple pudding",
-        "action": "mix",
+        "action": "add",
         "ingredients": ["pudding", "sliced apple"],
     },
+    {
+        "name": "racuchy",
+        "action": "fry",
+        "ingredients": ["pancake dough", "sliced apple"],
+    },
+    {"name": "apple pancake", "action": "fry", "ingredients": ["apple jam", "pancake"]},
 ]
 
 
@@ -61,9 +67,9 @@ class Cookbook:
     def test_combinations(self):
         assert self.get_combination("cut", ["apple"]) == "sliced apple"
         assert self.get_combination("boil", ["apple"]) == "boiled apple"
-        assert self.get_combination("mix", ["water", "flour"]) == "dough"
-        assert self.get_combination("mix", ["flour", "water"]) == "dough"
-        assert not self.get_combination("mix", ["flour", "apple"])
+        assert self.get_combination("add", ["water", "flour"]) == "dough"
+        assert self.get_combination("add", ["flour", "water"]) == "dough"
+        assert not self.get_combination("add", ["flour", "apple"])
         print("Cookbook test succesful")
 
 

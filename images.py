@@ -25,6 +25,8 @@ images = {
     "apple pudding": (0, 80, px.COLOR_DARK_BLUE),
     "pancake": (16, 80, px.COLOR_DARK_BLUE),
     "apple pancake": (32, 80, px.COLOR_DARK_BLUE),
+    "racuchy": (48, 80, px.COLOR_DARK_BLUE),
+    "sweet milk": (32, 864, px.COLOR_DARK_BLUE),
 }
 
 
