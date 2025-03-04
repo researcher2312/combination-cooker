@@ -4,6 +4,7 @@ from cookbook import Cookbook
 from graphics import Image, Slot, Textbox
 
 cookbook = Cookbook()
+actions = ["cut", "boil", "fry", "bake", "add"]
 
 
 class IngredientType(Enum):
@@ -25,10 +26,10 @@ class CookingStation:
         self.y = y
         self.fields = [Slot(x + i * 30, y, 18) for i in range(n_fields)]
         self.result_field = Slot(120, 80, 18)
-        self.action = "cut"
-        self.text = Textbox(x + 17, y + 20, self.action)
-        self.left = get_image("left").set_coordinates(x + 20, y + 30)
-        self.right = get_image("right").set_coordinates(x + 50, y + 30)
+        self.text = Textbox(x + 17, y + 20, "")
+        self.left = get_image("left").set_coordinates(x + 16, y + 30)
+        self.right = get_image("right").set_coordinates(x + 48, y + 30)
+        self.set_action("boil")
 
     def display(self):
         for field in self.fields:
@@ -36,6 +37,23 @@ class CookingStation:
         self.text.display()
         self.left.display()
         self.right.display()
+        self.action_image.display()
+
+    def update(self):
+        if self.right.clicked_now():
+            self.next_action()
+
+    def set_action(self, action: str):
+        self.action_image = get_image(action).set_coordinates(self.x + 32, self.y + 30)
+        self.action = action
+        self.text.text = action
+
+    def next_action(self):
+        action_index = actions.index(self.action)
+        if action_index != len(actions) - 1:
+            self.set_action(actions[action_index + 1])
+        else:
+            self.set_action(actions[0])
 
     def find_close_item(self, items: list[Image]):
         for item in items:

@@ -33,6 +33,7 @@ class App:
             px.quit()
         self.button.update()
         self.clicker.handle_click(px.MOUSE_BUTTON_LEFT)
+        self.cooker.update()
         self.cooker.check_item_removed()
         self.cooker.find_close_item(self.items)
 

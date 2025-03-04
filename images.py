@@ -10,7 +10,7 @@ image_names = [
     "sweet dough", "apple pie", "caramel", "apple jam", "cookies", "flatbread",
     "apple chips", "apple compote", "caramelized apple", "pancake dough",
     "hot milk", "pudding", "apple pudding", "pancake", "apple pancake", "racuchy",
-    "cut", "fry", "boil", "bake", "mix", "left", "right"
+    "cut", "fry", "boil", "bake", "add", "left", "right"
 ]  # fmt: skip
 
 
