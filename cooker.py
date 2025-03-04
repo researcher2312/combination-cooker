@@ -1,7 +1,16 @@
+from enum import Enum
+from images import get_image
 from cookbook import Cookbook
 from graphics import Image, Slot, Textbox
 
 cookbook = Cookbook()
+
+
+class IngredientType(Enum):
+    fruit = 1
+    spread = 2
+    drink = 3
+    vegetable = 4
 
 
 class Ingredient:
@@ -11,18 +20,22 @@ class Ingredient:
 
 
 class CookingStation:
-    def __init__(self, x, y, action, n_fields=2):
+    def __init__(self, x, y, n_fields=2):
         self.x = x
         self.y = y
         self.fields = [Slot(x + i * 30, y, 18) for i in range(n_fields)]
         self.result_field = Slot(120, 80, 18)
-        self.action = action
-        self.text = Textbox(x + 17, y + 20, action)
+        self.action = "cut"
+        self.text = Textbox(x + 17, y + 20, self.action)
+        self.left = get_image("left").set_coordinates(x + 20, y + 30)
+        self.right = get_image("right").set_coordinates(x + 50, y + 30)
 
     def display(self):
         for field in self.fields:
             field.display()
         self.text.display()
+        self.left.display()
+        self.right.display()
 
     def find_close_item(self, items: list[Image]):
         for item in items:

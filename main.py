@@ -6,14 +6,6 @@ from graphics import Button, align_text_right
 from images import get_images
 from mouse import MouseDrag
 
-cooking_stations = [
-    CookingStation(10, 30, "cut"),
-    CookingStation(80, 10, "boil"),
-    CookingStation(90, 35, "fry"),
-    CookingStation(10, 90, "bake"),
-    CookingStation(80, 70, "add", 3),
-]
-
 
 class App:
     def __init__(self):
@@ -22,17 +14,16 @@ class App:
         px.load("resources.pyxres")
         self.items = get_images(basic_ingredients)
         self.clicker = MouseDrag(self.items)
-        self.cookers = cooking_stations
+        self.cooker = CookingStation(80, 10, 3)
         self.button = Button(50, 20, 30, 10, self.check_cookers)
         px.playm(0)
         px.run(self.update, self.draw)
 
     def check_cookers(self):
-        for cooker in self.cookers:
-            result = cooker.check_recipe()
-            if result is not None:
-                self.create_item(result)
-                cooker.clear_values(self.items)
+        result = self.cooker.check_recipe()
+        if result is not None:
+            self.create_item(result)
+            self.cooker.clear_values(self.items)
 
     def create_item(self, name: str):
         self.items.extend(get_images([name]))
@@ -42,14 +33,12 @@ class App:
             px.quit()
         self.button.update()
         self.clicker.handle_click(px.MOUSE_BUTTON_LEFT)
-        for cooker in self.cookers:
-            cooker.check_item_removed()
-            cooker.find_close_item(self.items)
+        self.cooker.check_item_removed()
+        self.cooker.find_close_item(self.items)
 
     def draw(self):
         px.cls(px.COLOR_WHITE)
-        for cooker in self.cookers:
-            cooker.display()
+        self.cooker.display()
         self.button.display()
         overlapped_block = self.clicker.find_overlapping()
         if overlapped_block is not None:

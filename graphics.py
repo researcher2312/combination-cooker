@@ -20,12 +20,16 @@ class Rect:
 
     def set_coordinates(self, x, y):
         self.x, self.y = x, y
+        return self
 
     def hovered(self):
         return 0 < px.mouse_x - self.x < self.w and 0 < px.mouse_y - self.y < self.h
 
     def clicked(self):
         return self.hovered() and px.btn(px.MOUSE_BUTTON_LEFT)
+
+    def clicked_now(self):
+        return self.hovered() and px.btnp(px.MOUSE_BUTTON_LEFT)
 
 
 class Textbox(Rect):
@@ -80,7 +84,6 @@ class Button(Rect):
         self.w = w
         self.h = h
         self.action = action
-        self.pressed = False
         self.text = "COOK"
         self.col = px.COLOR_BROWN
         tx, ty = get_text_size(self.text)
@@ -88,15 +91,11 @@ class Button(Rect):
         self.text_y = y + (h - ty) / 2
 
     def update(self):
-        if self.clicked():
-            if not self.pressed and self.action is not None:
-                self.action()
-            self.pressed = True
-        else:
-            self.pressed = False
+        if self.clicked_now():
+            self.action()
 
     def display(self):
-        if self.pressed:
+        if self.clicked():
             self.col = px.COLOR_GRAY
         else:
             self.col = px.COLOR_BROWN
