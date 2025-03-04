@@ -26,7 +26,7 @@ class CookingStation:
         self.y = y
         self.fields = [Slot(x + i * 30, y, 18) for i in range(n_fields)]
         self.result_field = Slot(120, 80, 18)
-        self.text = Textbox(x + 17, y + 20, "")
+        self.text = Textbox(x + 32, y + 20, "")
         self.left = get_image("left").set_coordinates(x + 16, y + 30)
         self.right = get_image("right").set_coordinates(x + 48, y + 30)
         self.set_action("boil")
