@@ -51,13 +51,13 @@ recipes = [
 
 
 class Cookbook:
-    def combination_possible(self, action: str, ingredients: list) -> bool:
+    def combination_possible(self, action: str, ingredients: list[str]) -> bool:
         return any(
             r["action"] == action and sorted(r["ingredients"]) == sorted(ingredients)
             for r in recipes
         )
 
-    def get_combination(self, action: str, ingredients: list) -> str:
+    def get_combination(self, action: str, ingredients: list[str]) -> str:
         for r in recipes:
             if r["action"] == action and sorted(r["ingredients"]) == sorted(
                 ingredients

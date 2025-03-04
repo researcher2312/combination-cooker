@@ -33,7 +33,7 @@ class Rect:
 
 
 class Textbox(Rect):
-    def __init__(self, x, y, text):
+    def __init__(self, x, y, text: str):
         super().__init__(x, y)
         self.text = text
 
@@ -42,7 +42,7 @@ class Textbox(Rect):
 
 
 class Image(Rect):
-    def __init__(self, imx, imy, bg_color, name, x=0, y=0):
+    def __init__(self, imx: int, imy: int, bg_color: int, name: str, x=0, y=0):
         super().__init__(x, y)
         self.sprite_x = imx
         self.sprite_y = imy
@@ -56,7 +56,7 @@ class Image(Rect):
 
 
 class Slot(Rect):
-    def __init__(self, x, y, len):
+    def __init__(self, x: int, y: int, len: int):
         super().__init__(x, y)
         self.len = len
         self.col = px.COLOR_BROWN
@@ -65,7 +65,7 @@ class Slot(Rect):
     def display(self):
         px.rectb(self.x, self.y, self.len, self.len, self.col)
 
-    def insert_item(self, item):
+    def insert_item(self, item: Image):
         self.throw_out_item()
         self.held_item = item
         item.x = self.x + 1

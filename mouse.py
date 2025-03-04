@@ -26,7 +26,7 @@ class MouseDrag:
         self.dragged.x = px.mouse_x - self.dx
         self.dragged.y = px.mouse_y - self.dy
 
-    def handle_click(self, button):
+    def handle_click(self, button: int):
         if px.btn(button):
             if self.dragged is not None:
                 self.drag()
