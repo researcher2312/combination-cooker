@@ -42,6 +42,8 @@ class CookingStation:
     def update(self):
         if self.right.clicked_now():
             self.next_action()
+        if self.left.clicked_now():
+            self.previous_action()
 
     def set_action(self, action: str):
         self.action_image = get_image(action).set_coordinates(self.x + 32, self.y + 30)
@@ -54,6 +56,13 @@ class CookingStation:
             self.set_action(actions[action_index + 1])
         else:
             self.set_action(actions[0])
+
+    def previous_action(self):
+        action_index = actions.index(self.action)
+        if action_index == 0:
+            self.set_action(actions[-1])
+        else:
+            self.set_action(actions[action_index - 1])
 
     def find_close_item(self, items: list[Image]):
         for item in items:

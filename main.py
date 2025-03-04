@@ -14,8 +14,8 @@ class App:
         px.load("resources.pyxres")
         self.items = get_images(basic_ingredients)
         self.clicker = MouseDrag(self.items)
-        self.cooker = CookingStation(80, 10, 3)
-        self.button = Button(50, 20, 30, 10, self.check_cookers)
+        self.cooker = CookingStation(20, 40, 3)
+        self.button = Button(50, 100, 30, 10, self.check_cookers)
         px.playm(0)
         px.run(self.update, self.draw)
 
