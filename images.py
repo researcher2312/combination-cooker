@@ -2,33 +2,27 @@ import pyxel as px
 
 from graphics import Image
 
-images = {
-    "apple": (16, 0, px.COLOR_DARK_BLUE),
-    "sugar": (16, 16, px.COLOR_PINK),
-    "flour": (32, 0, px.COLOR_DARK_BLUE),
-    "sliced apple": (48, 0, px.COLOR_DARK_BLUE),
-    "milk": (0, 16, px.COLOR_DARK_BLUE),
-    "water": (32, 16, px.COLOR_PINK),
-    "dough": (48, 16, px.COLOR_DARK_BLUE),
-    "sweet dough": (0, 32, px.COLOR_DARK_BLUE),
-    "apple pie": (16, 32, px.COLOR_DARK_BLUE),
-    "caramel": (32, 32, px.COLOR_DARK_BLUE),
-    "apple jam": (48, 32, px.COLOR_DARK_BLUE),
-    "cookies": (0, 48, px.COLOR_DARK_BLUE),
-    "flatbread": (16, 48, px.COLOR_DARK_BLUE),
-    "apple chips": (32, 48, px.COLOR_DARK_BLUE),
-    "apple compote": (48, 48, px.COLOR_DARK_BLUE),
-    "caramelized apple": (0, 64, px.COLOR_DARK_BLUE),
-    "pancake dough": (16, 64, px.COLOR_DARK_BLUE),
-    "hot milk": (32, 64, px.COLOR_DARK_BLUE),
-    "pudding": (48, 64, px.COLOR_DARK_BLUE),
-    "apple pudding": (0, 80, px.COLOR_DARK_BLUE),
-    "pancake": (16, 80, px.COLOR_DARK_BLUE),
-    "apple pancake": (32, 80, px.COLOR_DARK_BLUE),
-    "racuchy": (48, 80, px.COLOR_DARK_BLUE),
-    "sweet milk": (32, 864, px.COLOR_DARK_BLUE),
-}
+DEFAULT_BG = px.COLOR_DARK_BLUE
+special_background = {"water": px.COLOR_PINK, "sugar": px.COLOR_PINK}
+
+image_names = [
+    "bread", "apple", "flour", "sliced apple", "milk", "sugar", "water", "dough",
+    "sweet dough", "apple pie", "caramel", "apple jam", "cookies", "flatbread",
+    "apple chips", "apple compote", "caramelized apple", "pancake dough",
+    "hot milk", "pudding", "apple pudding", "pancake", "apple pancake", "racuchy",
+    "cut", "fry", "boil", "bake", "mix", "left", "right"
+]  # fmt: skip
+
+
+def get_image(name: str) -> Image:
+    position = image_names.index(name)
+    row = position // 4
+    column = position % 4
+    bg = DEFAULT_BG
+    if name in special_background:
+        bg = special_background[name]
+    return Image(column * 16, row * 16, bg, name)
 
 
 def get_images(names: list[str]) -> list[Image]:
-    return [Image(*images[name], name) for name in names]
+    return [get_image(name) for name in names]
