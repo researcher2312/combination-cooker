@@ -1,7 +1,7 @@
 from enum import Enum
 from images import get_image
 from cookbook import Cookbook
-from graphics import Image, Slot, Textbox
+from graphics import Image, Slot, Textbox, Rect
 
 cookbook = Cookbook()
 actions = ["cut", "boil", "fry", "bake", "add"]
@@ -14,10 +14,20 @@ class IngredientType(Enum):
     vegetable = 4
 
 
-class Ingredient:
-    def __init__(self, image, name):
-        self.image = image
+class InfiniteIngredient(Rect):
+    def __init__(self, x, y, name, items) -> None:
+        super().__init__(x, y)
+        self.image = get_image(name).set_coordinates(x, y)
         self.name = name
+        self.items_list = items
+
+    def update(self):
+        if self.clicked_now():
+            image = get_image(self.name).set_coordinates(self.x, self.y)
+            self.items_list.append(image)
+
+    def display(self):
+        self.image.display()
 
 
 class CookingStation:

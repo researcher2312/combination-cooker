@@ -1,7 +1,7 @@
 from json import dump
 
 actions = ["cut", "boil", "fry", "bake", "add"]
-basic_ingredients = ["apple", "water", "flour", "sugar", "sugar", "milk"]
+basic_ingredients = ["apple", "water", "flour", "sugar", "milk"]
 recipes = [
     {"name": "sliced apple", "action": "cut", "ingredients": ["apple"]},
     {"name": "boiled apple", "action": "boil", "ingredients": ["apple"]},
@@ -46,7 +46,7 @@ recipes = [
         "action": "fry",
         "ingredients": ["pancake dough", "sliced apple"],
     },
-    {"name": "apple pancake", "action": "fry", "ingredients": ["apple jam", "pancake"]},
+    {"name": "apple pancake", "action": "add", "ingredients": ["apple jam", "pancake"]},
 ]
 
 

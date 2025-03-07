@@ -14,6 +14,8 @@ class Rect:
     def __init__(self, x=0, y=0):
         self.x = x
         self.y = y
+        self.w = 16
+        self.h = 16
 
     def display(self):
         self.image.display(self.x, self.y)
@@ -48,8 +50,6 @@ class Image(Rect):
         self.sprite_y = imy
         self.bg_color = bg_color
         self.name = name
-        self.w = 16
-        self.h = 16
 
     def display(self):
         px.blt(self.x, self.y, 0, self.sprite_x, self.sprite_y, 16, 16, self.bg_color)
