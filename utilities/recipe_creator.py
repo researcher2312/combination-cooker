@@ -1,6 +1,7 @@
 from json import dump, load
+from pathlib import Path
 
-FILENAME = "../game/recipes.json"
+FILENAME = Path("../game/recipes.json").resolve()
 
 
 def get_new_recipe() -> dict:
