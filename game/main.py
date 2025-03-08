@@ -17,7 +17,7 @@ class App:
         self.cooker = CookingStation(40, 40, 3)
         self.button = Button(65, 100, 30, 10, self.check_cookers)
         self.drawer = [
-            InfiniteIngredient(n * 20 + 30, 10, item, self.items)
+            InfiniteIngredient(n * 15 + 10, 10, item, self.items)
             for n, item in enumerate(basic_ingredients)
         ]
         px.playm(0)

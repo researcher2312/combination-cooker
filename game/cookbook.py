@@ -3,7 +3,16 @@ from json import load
 RECIPES_FILE = "recipes.json"
 
 actions = ["cut", "boil", "fry", "bake", "add"]
-basic_ingredients = ["apple", "water", "flour", "sugar", "milk"]
+basic_ingredients = [
+    "apple",
+    "water",
+    "flour",
+    "sugar",
+    "milk",
+    "yeast",
+    "oil",
+    "chickpeas",
+]
 
 with open(RECIPES_FILE, "r") as file:
     recipes = load(file)

@@ -4,7 +4,7 @@ from cookbook import Cookbook
 from graphics import Image, Slot, Textbox, Rect
 
 cookbook = Cookbook()
-actions = ["cut", "boil", "fry", "bake", "add"]
+actions = ["cut", "boil", "fry", "bake", "add", "blend"]
 
 
 class IngredientType(Enum):

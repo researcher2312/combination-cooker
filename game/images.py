@@ -4,7 +4,7 @@ from graphics import Image
 
 DEFAULT_BG = px.COLOR_DARK_BLUE
 special_background = {"water": px.COLOR_PINK, "sugar": px.COLOR_PINK}
-image_alias = {"boiled apple": "apple"}
+image_alias = {"boiled apple": "apple", "boiled chickpeas": "chickpeas"}
 
 image_names = [
     "bread", "apple", "flour", "sliced apple", "milk", "sugar", "water",
@@ -12,7 +12,8 @@ image_names = [
     "flatbread", "apple chips", "apple compote", "caramelized apple",
     "pancake dough", "hot milk", "pudding", "apple pudding", "pancake",
     "apple pancake", "racuchy", "cut", "fry", "boil", "bake", "add", "left",
-    "right"
+    "right", "blend", "chickpeas", "powdered sugar", "yeast", "yeast dough",
+    "yeast cake", "sweet yeast dough", "hummus", "oil", "apple shake",
 ]  # fmt: skip
 
 

@@ -1,192 +1,239 @@
 [
-  {
-    "name": "sliced apple",
-    "action": "cut",
-    "ingredients": [
-      "apple"
-    ]
-  },
-  {
-    "name": "boiled apple",
-    "action": "boil",
-    "ingredients": [
-      "apple"
-    ]
-  },
-  {
-    "name": "dough",
-    "action": "add",
-    "ingredients": [
-      "water",
-      "flour"
-    ]
-  },
-  {
-    "name": "sweet dough",
-    "action": "add",
-    "ingredients": [
-      "water",
-      "flour",
-      "sugar"
-    ]
-  },
-  {
-    "name": "apple pie",
-    "action": "bake",
-    "ingredients": [
-      "sweet dough",
-      "sliced apple"
-    ]
-  },
-  {
-    "name": "apple jam",
-    "action": "fry",
-    "ingredients": [
-      "sliced apple",
-      "sugar"
-    ]
-  },
-  {
-    "name": "apple compote",
-    "action": "boil",
-    "ingredients": [
-      "sliced apple"
-    ]
-  },
-  {
-    "name": "cookies",
-    "action": "bake",
-    "ingredients": [
-      "sweet dough"
-    ]
-  },
-  {
-    "name": "flatbread",
-    "action": "bake",
-    "ingredients": [
-      "dough"
-    ]
-  },
-  {
-    "name": "apple chips",
-    "action": "bake",
-    "ingredients": [
-      "sliced apple"
-    ]
-  },
-  {
-    "name": "caramel",
-    "action": "fry",
-    "ingredients": [
-      "sugar"
-    ]
-  },
-  {
-    "name": "caramelized apple",
-    "action": "add",
-    "ingredients": [
-      "sliced apple",
-      "caramel"
-    ]
-  },
-  {
-    "name": "pancake dough",
-    "action": "add",
-    "ingredients": [
-      "milk",
-      "flour",
-      "sugar"
-    ]
-  },
-  {
-    "name": "pancake",
-    "action": "fry",
-    "ingredients": [
-      "pancake dough"
-    ]
-  },
-  {
-    "name": "hot milk",
-    "action": "boil",
-    "ingredients": [
-      "milk"
-    ]
-  },
-  {
-    "name": "sweet milk",
-    "action": "add",
-    "ingredients": [
-      "milk",
-      "sugar"
-    ]
-  },
-  {
-    "name": "pudding",
-    "action": "boil",
-    "ingredients": [
-      "milk",
-      "flour"
-    ]
-  },
-  {
-    "name": "apple pudding",
-    "action": "add",
-    "ingredients": [
-      "pudding",
-      "sliced apple"
-    ]
-  },
-  {
-    "name": "racuchy",
-    "action": "fry",
-    "ingredients": [
-      "pancake dough",
-      "sliced apple"
-    ]
-  },
-  {
-    "name": "apple pancake",
-    "action": "add",
-    "ingredients": [
-      "apple jam",
-      "pancake"
-    ]
-  },
-  {
-    "ingredients": [
-      "sugar"
-    ],
-    "action": "blend",
-    "name": "powdered sugar"
-  },
-  {
-    "ingredients": [
-      "apple",
-      "milk"
-    ],
-    "action": "blend",
-    "name": "apple shake"
-  },
-  {
-    "ingredients": [
-      "chickpea"
-    ],
-    "action": "boil",
-    "name": "boiled chickpea"
-  },
-  {
-    "ingredients": [
-      "boiled chickpea"
-    ],
-    "action": "blend",
-    "name": "hummus"
-  },
-  {
-    "ingredients": [
-      "pancake",
-      "powdered sugar"
-    ],
-    "action": "add",
-    "name": "sugar pancake"
-  }
+    {
+        "name": "sliced apple",
+        "action": "cut",
+        "ingredients": [
+            "apple"
+        ]
+    },
+    {
+        "name": "boiled apple",
+        "action": "boil",
+        "ingredients": [
+            "apple"
+        ]
+    },
+    {
+        "name": "dough",
+        "action": "add",
+        "ingredients": [
+            "water",
+            "flour"
+        ]
+    },
+    {
+        "name": "sweet dough",
+        "action": "add",
+        "ingredients": [
+            "water",
+            "flour",
+            "sugar"
+        ]
+    },
+    {
+        "name": "apple pie",
+        "action": "bake",
+        "ingredients": [
+            "sweet dough",
+            "sliced apple"
+        ]
+    },
+    {
+        "name": "apple jam",
+        "action": "fry",
+        "ingredients": [
+            "sliced apple",
+            "sugar"
+        ]
+    },
+    {
+        "name": "apple compote",
+        "action": "boil",
+        "ingredients": [
+            "sliced apple"
+        ]
+    },
+    {
+        "name": "cookies",
+        "action": "bake",
+        "ingredients": [
+            "sweet dough"
+        ]
+    },
+    {
+        "name": "flatbread",
+        "action": "bake",
+        "ingredients": [
+            "dough"
+        ]
+    },
+    {
+        "name": "apple chips",
+        "action": "bake",
+        "ingredients": [
+            "sliced apple"
+        ]
+    },
+    {
+        "name": "caramel",
+        "action": "fry",
+        "ingredients": [
+            "sugar"
+        ]
+    },
+    {
+        "name": "caramelized apple",
+        "action": "add",
+        "ingredients": [
+            "sliced apple",
+            "caramel"
+        ]
+    },
+    {
+        "name": "pancake dough",
+        "action": "add",
+        "ingredients": [
+            "milk",
+            "flour",
+            "sugar"
+        ]
+    },
+    {
+        "name": "pancake",
+        "action": "fry",
+        "ingredients": [
+            "pancake dough"
+        ]
+    },
+    {
+        "name": "hot milk",
+        "action": "boil",
+        "ingredients": [
+            "milk"
+        ]
+    },
+    {
+        "name": "sweet milk",
+        "action": "add",
+        "ingredients": [
+            "milk",
+            "sugar"
+        ]
+    },
+    {
+        "name": "pudding",
+        "action": "boil",
+        "ingredients": [
+            "milk",
+            "flour"
+        ]
+    },
+    {
+        "name": "apple pudding",
+        "action": "add",
+        "ingredients": [
+            "pudding",
+            "sliced apple"
+        ]
+    },
+    {
+        "name": "racuchy",
+        "action": "fry",
+        "ingredients": [
+            "pancake dough",
+            "sliced apple"
+        ]
+    },
+    {
+        "name": "apple pancake",
+        "action": "add",
+        "ingredients": [
+            "apple jam",
+            "pancake"
+        ]
+    },
+    {
+        "name": "powdered sugar",
+        "action": "blend",
+        "ingredients": [
+            "sugar"
+        ]
+    },
+    {
+        "name": "apple shake",
+        "action": "blend",
+        "ingredients": [
+            "apple",
+            "milk"
+        ]
+    },
+    {
+        "name": "boiled chickpeas",
+        "action": "boil",
+        "ingredients": [
+            "chickpeas"
+        ]
+    },
+    {
+        "name": "hummus",
+        "action": "blend",
+        "ingredients": [
+            "boiled chickpea"
+        ]
+    },
+    {
+        "name": "sugar pancake",
+        "action": "add",
+        "ingredients": [
+            "pancake",
+            "powdered sugar"
+        ]
+    },
+    {
+        "name": "sugar flatbread",
+        "action": "add",
+        "ingredients": [
+            "sugar",
+            "flatbread"
+        ]
+    },
+    {
+        "name": "hummus",
+        "action": "blend",
+        "ingredients": [
+            "oil",
+            "boiled chickpeas"
+        ]
+    },
+    {
+        "name": "sweet yeast dough",
+        "action": "add",
+        "ingredients": [
+            "sugar",
+            "yeast dough"
+        ]
+    },
+    {
+        "name": "yeast dough",
+        "action": "add",
+        "ingredients": [
+            "water",
+            "flour",
+            "yeast"
+        ]
+    },
+    {
+        "name": "bread",
+        "action": "bake",
+        "ingredients": [
+            "yeast dough"
+        ]
+    },
+    {
+        "name": "yeast cake",
+        "action": "bake",
+        "ingredients": [
+            "sweet yeast dough"
+        ]
+    }
 ]
