@@ -14,22 +14,6 @@ class IngredientType(Enum):
     vegetable = 4
 
 
-class InfiniteIngredient(Rect):
-    def __init__(self, x, y, name, items) -> None:
-        super().__init__(x, y)
-        self.image = get_image(name).set_coordinates(x, y)
-        self.name = name
-        self.items_list = items
-
-    def update(self):
-        if self.clicked_now():
-            image = get_image(self.name).set_coordinates(self.x, self.y)
-            self.items_list.append(image)
-
-    def display(self):
-        self.image.display()
-
-
 class CookingStation:
     def __init__(self, x, y, n_fields=2):
         self.x = x

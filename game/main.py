@@ -1,7 +1,6 @@
 import pyxel as px
-
-from cookbook import basic_ingredients
-from cooker import CookingStation, InfiniteIngredient
+from cooker import CookingStation
+from drawer import IngredientDrawer
 from graphics import Button, align_text_right
 from images import get_images
 from mouse import MouseDrag
@@ -16,10 +15,7 @@ class App:
         self.clicker = MouseDrag(self.items)
         self.cooker = CookingStation(40, 40, 3)
         self.button = Button(65, 100, 30, 10, self.check_cookers)
-        self.drawer = [
-            InfiniteIngredient(n * 15 + 10, 10, item, self.items)
-            for n, item in enumerate(basic_ingredients)
-        ]
+        self.drawer = IngredientDrawer()
         px.playm(0)
         px.run(self.update, self.draw)
 
@@ -36,8 +32,7 @@ class App:
         if px.btnp(px.KEY_Q):
             px.quit()
         self.button.update()
-        for drawer_item in self.drawer:
-            drawer_item.update()
+        self.drawer.update()
         self.clicker.handle_click(px.MOUSE_BUTTON_LEFT)
         self.cooker.update()
         self.cooker.check_item_removed()
@@ -47,8 +42,7 @@ class App:
         px.cls(px.COLOR_WHITE)
         self.cooker.display()
         self.button.display()
-        for drawer_item in self.drawer:
-            drawer_item.display()
+        self.drawer.display()
         overlapped_block = self.clicker.find_overlapping()
         if overlapped_block is not None:
             align_text_right(150, 110, overlapped_block.name)
