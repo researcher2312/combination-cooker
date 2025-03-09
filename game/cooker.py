@@ -1,7 +1,8 @@
 from enum import Enum
-from images import get_image
+
 from cookbook import Cookbook
-from graphics import Image, Slot, Textbox, Rect
+from graphics import Image, Slot, Textbox
+from images import get_image
 
 cookbook = Cookbook()
 actions = ["cut", "boil", "fry", "bake", "add", "blend"]
@@ -15,7 +16,7 @@ class IngredientType(Enum):
 
 
 class CookingStation:
-    def __init__(self, x, y, n_fields=2):
+    def __init__(self, x, y, n_fields=2) -> None:
         self.x = x
         self.y = y
         self.fields = [Slot(x + i * 30, y, 18) for i in range(n_fields)]
@@ -25,7 +26,7 @@ class CookingStation:
         self.right = get_image("right").set_coordinates(x + 48, y + 30)
         self.set_action("boil")
 
-    def display(self):
+    def display(self) -> None:
         for field in self.fields:
             field.display()
         self.text.display()
@@ -33,32 +34,32 @@ class CookingStation:
         self.right.display()
         self.action_image.display()
 
-    def update(self):
+    def update(self) -> None:
         if self.right.clicked_now():
             self.next_action()
         if self.left.clicked_now():
             self.previous_action()
 
-    def set_action(self, action: str):
+    def set_action(self, action: str) -> None:
         self.action_image = get_image(action).set_coordinates(self.x + 32, self.y + 30)
         self.action = action
         self.text.text = action
 
-    def next_action(self):
+    def next_action(self) -> None:
         action_index = actions.index(self.action)
         if action_index != len(actions) - 1:
             self.set_action(actions[action_index + 1])
         else:
             self.set_action(actions[0])
 
-    def previous_action(self):
+    def previous_action(self) -> None:
         action_index = actions.index(self.action)
         if action_index == 0:
             self.set_action(actions[-1])
         else:
             self.set_action(actions[action_index - 1])
 
-    def find_close_item(self, items: list[Image]):
+    def find_close_item(self, items: list[Image]) -> None:
         for item in items:
             for slot in self.fields:
                 dx = item.x - slot.x
@@ -67,7 +68,7 @@ class CookingStation:
                     if not item.clicked():
                         slot.insert_item(item)
 
-    def check_item_removed(self):
+    def check_item_removed(self) -> None:
         for slot in self.fields:
             if slot.held_item is not None:
                 dx = slot.held_item.x - slot.x
@@ -80,10 +81,10 @@ class CookingStation:
             slot.held_item.name for slot in self.fields if slot.held_item is not None
         ]
 
-    def check_recipe(self):
+    def check_recipe(self) -> str:
         return cookbook.get_combination(self.action, self.get_item_names())
 
-    def clear_values(self, items):
+    def clear_values(self, items: list[Image]) -> None:
         for slot in self.fields:
             if slot.held_item is not None:
                 items.remove(slot.held_item)

@@ -1,7 +1,7 @@
 import pyxel as px
 from cooker import CookingStation
 from drawer import IngredientDrawer
-from graphics import Button, align_text_right
+from graphics import Button, Image, align_text_right
 from images import get_images
 from mouse import MouseDrag
 
@@ -11,11 +11,11 @@ class App:
         px.init(160, 120, title="Cooking Game")
         px.mouse(True)
         px.load("resources.pyxres")
-        self.items = []
+        self.items: list[Image] = []
         self.clicker = MouseDrag(self.items)
         self.cooker = CookingStation(40, 40, 3)
         self.button = Button(65, 100, 30, 10, self.check_cookers)
-        self.drawer = IngredientDrawer()
+        self.drawer = IngredientDrawer(self.items)
         px.playm(0)
         px.run(self.update, self.draw)
 

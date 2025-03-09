@@ -1,3 +1,5 @@
+from typing import Self
+
 import pyxel as px
 
 
@@ -11,7 +13,7 @@ def align_text_right(x: str, y: str, text: str):
 
 
 class Rect:
-    def __init__(self, x=0, y=0):
+    def __init__(self, x=0, y=0) -> None:
         self.x = x
         self.y = y
         self.w = 16
@@ -20,17 +22,17 @@ class Rect:
     def display(self):
         self.image.display(self.x, self.y)
 
-    def set_coordinates(self, x, y):
+    def set_coordinates(self, x, y) -> Self:
         self.x, self.y = x, y
         return self
 
-    def hovered(self):
+    def hovered(self) -> bool:
         return 0 < px.mouse_x - self.x < self.w and 0 < px.mouse_y - self.y < self.h
 
-    def clicked(self):
+    def clicked(self) -> bool:
         return self.hovered() and px.btn(px.MOUSE_BUTTON_LEFT)
 
-    def clicked_now(self):
+    def clicked_now(self) -> bool:
         return self.hovered() and px.btnp(px.MOUSE_BUTTON_LEFT)
 
 
@@ -79,7 +81,7 @@ class Slot(Rect):
 
 
 class Button(Rect):
-    def __init__(self, x, y, w, h, action=None):
+    def __init__(self, x: int, y: int, w: int, h: int, action=None):
         super().__init__(x, y)
         self.w = w
         self.h = h

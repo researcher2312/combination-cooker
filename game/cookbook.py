@@ -32,7 +32,7 @@ class Cookbook:
             ):
                 return r["name"]
 
-    def test_combinations(self):
+    def test_combinations(self) -> None:
         assert self.get_combination("cut", ["apple"]) == "sliced apple"
         assert self.get_combination("boil", ["apple"]) == "boiled apple"
         assert self.get_combination("add", ["water", "flour"]) == "dough"
