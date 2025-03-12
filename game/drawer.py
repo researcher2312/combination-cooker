@@ -8,7 +8,7 @@ drawer_names = ["fruit", "veggies", "liquids", "dried"]
 drawer_products = [
     ["apple"],
     ["chickpeas"],
-    ["water", "oil"],
+    ["water", "oil", "milk"],
     ["flour", "sugar", "yeast"],
 ]
 
@@ -34,7 +34,7 @@ class IngredientDrawer:
         self.global_items = items
         self.selected = 0
         self.keys = [px.KEY_1, px.KEY_2, px.KEY_3, px.KEY_4]
-        self.displayed_items: list[Image] = []
+        self.displayed_items: list[InfiniteIngredient] = []
         self.setup_products()
 
     def display(self) -> None:
@@ -51,6 +51,8 @@ class IngredientDrawer:
             if px.btnp(key):
                 self.selected = key_n
                 self.setup_products()
+        for displayed_item in self.displayed_items:
+            displayed_item.update()
 
     def print_bottom_line(self) -> None:
         left_line_end = self.selected * 40
@@ -65,13 +67,14 @@ class IngredientDrawer:
             px.text(i * 40 + 5, 3, name, px.COLOR_BLACK)
 
     def setup_products(self) -> None:
-        self.remove_from_global()
+        # self.remove_from_global()
         self.displayed_items.clear()
         for n, product_name in enumerate(drawer_products[self.selected]):
             self.displayed_items.append(
-                get_image(product_name).set_coordinates(n * 20 + 5, 13)
+                InfiniteIngredient(n * 20 + 5, 13, product_name, self.global_items)
+                # get_image(product_name).set_coordinates(n * 20 + 5, 13)
             )
-        self.global_items.extend(self.displayed_items)
+        # self.global_items.extend(self.displayed_items)
 
     def remove_from_global(self) -> None:
         for item in self.displayed_items:

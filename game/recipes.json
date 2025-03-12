@@ -10,7 +10,7 @@
         "name": "boiled apple",
         "action": "boil",
         "ingredients": [
-            "apple"
+            "apple", "water"
         ]
     },
     {
@@ -50,7 +50,7 @@
         "name": "apple compote",
         "action": "boil",
         "ingredients": [
-            "sliced apple"
+            "sliced apple", "water"
         ]
     },
     {
@@ -171,7 +171,7 @@
         "name": "boiled chickpeas",
         "action": "boil",
         "ingredients": [
-            "chickpeas"
+            "chickpeas", "water"
         ]
     },
     {

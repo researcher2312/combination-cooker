@@ -2,7 +2,7 @@ import pyxel as px
 from cooker import CookingStation
 from drawer import IngredientDrawer
 from graphics import Button, Image, align_text_right
-from images import get_images
+from images import get_image
 from mouse import MouseDrag
 
 
@@ -26,7 +26,7 @@ class App:
             self.cooker.clear_values(self.items)
 
     def create_item(self, name: str):
-        self.items.extend(get_images([name]))
+        self.items.append(get_image(name).set_coordinates(40, 35))
 
     def update(self):
         if px.btnp(px.KEY_Q):
