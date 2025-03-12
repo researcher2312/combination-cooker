@@ -1,20 +1,11 @@
 from json import load
+from pathlib import Path
 
-RECIPES_FILE = "recipes.json"
+RECIPES_FILENAME = "recipes.json"
 
-actions = ["cut", "boil", "fry", "bake", "add"]
-basic_ingredients = [
-    "apple",
-    "water",
-    "flour",
-    "sugar",
-    "milk",
-    "yeast",
-    "oil",
-    "chickpeas",
-]
 
-with open(RECIPES_FILE, "r") as file:
+recipes_file = Path(__file__).resolve().parent / RECIPES_FILENAME
+with open(recipes_file, "rt") as file:
     recipes = load(file)
 
 
