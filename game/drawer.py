@@ -70,12 +70,15 @@ class IngredientDrawer:
             item.display()
 
     def update(self) -> None:
+        if px.btnp(px.MOUSE_BUTTON_LEFT) and px.mouse_y < TAB_PANEL_H:
+            for i in range(MAX_TABS):
+                if px.mouse_x > i * 40 and px.mouse_x < (i + 1) * 40:
+                    self.selected = i
+                    self.setup_products()
         for key_n, key in enumerate(self.keys):
             if px.btnp(key):
                 self.selected = key_n
                 self.setup_products()
-        for displayed_item in self.displayed_items:
-            displayed_item.update()
 
     def print_bottom_line(self) -> None:
         left_line_end = self.selected * 40
