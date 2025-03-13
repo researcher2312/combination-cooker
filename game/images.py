@@ -1,7 +1,5 @@
 import pyxel as px
 
-from graphics import Image
-
 DEFAULT_BG = px.COLOR_DARK_BLUE
 special_background = {"water": px.COLOR_PINK, "sugar": px.COLOR_PINK}
 image_alias = {"boiled apple": "apple", "boiled chickpeas": "chickpeas"}
@@ -14,13 +12,21 @@ image_names = [
     "apple pancake", "fritters", "cut", "fry", "boil", "bake", "add", "left",
     "right", "blend", "chickpeas", "powdered sugar", "yeast", "yeast dough",
     "yeast cake", "sweet yeast dough", "hummus", "oil", "apple shake",
-    "bread slice", "apple bread",
+    "bread slice", "apple bread", "rubbish", "open rubbish",
 ]  # fmt: skip
 
 
-def get_image(name: str) -> Image:
+class ImageData:
+    def __init__(self, im_x: int, im_y: int, bg_col: int, name: str):
+        self.im_x = im_x
+        self.im_y = im_y
+        self.bg_color = bg_col
+        self.name = name
+
+
+def get_image_data(name: str) -> ImageData:
     if name in image_alias:
-        aliased = get_image(image_alias[name])
+        aliased = get_image_data(image_alias[name])
         aliased.name = name
         return aliased
     position = image_names.index(name)
@@ -29,8 +35,8 @@ def get_image(name: str) -> Image:
     bg = DEFAULT_BG
     if name in special_background:
         bg = special_background[name]
-    return Image(column * 16, row * 16, bg, name)
+    return ImageData(column * 16, row * 16, bg, name)
 
 
-def get_images(names: list[str]) -> list[Image]:
-    return [get_image(name) for name in names]
+def get_images_data(names: list[str]) -> list[ImageData]:
+    return [get_image_data(name) for name in names]

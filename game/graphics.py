@@ -1,6 +1,11 @@
 from typing import Self
 
 import pyxel as px
+from images import ImageData, get_image_data
+
+
+def create_image(name: str, x: int = 0, y: int = 0):
+    return Image.from_data(get_image_data(name), x, y)
 
 
 def get_text_size(text: str) -> int:
@@ -13,7 +18,7 @@ def align_text_right(x: str, y: str, text: str):
 
 
 class Rect:
-    def __init__(self, x=0, y=0) -> None:
+    def __init__(self, x: int = 0, y: int = 0) -> None:
         self.x = x
         self.y = y
         self.w = 16
@@ -22,7 +27,7 @@ class Rect:
     def display(self):
         self.image.display(self.x, self.y)
 
-    def set_coordinates(self, x, y) -> Self:
+    def set_coordinates(self, x: int, y: int) -> Self:
         self.x, self.y = x, y
         return self
 
@@ -37,7 +42,7 @@ class Rect:
 
 
 class Textbox(Rect):
-    def __init__(self, x, y, text: str):
+    def __init__(self, x: int, y: int, text: str):
         super().__init__(x, y)
         self.text = text
 
@@ -53,27 +58,31 @@ class Image(Rect):
         self.bg_color = bg_color
         self.name = name
 
-    def display(self):
+    @classmethod
+    def from_data(cls, data: ImageData, x: int, y: int):
+        return cls(data.im_x, data.im_y, data.bg_color, data.name, x, y)
+
+    def display(self) -> None:
         px.blt(self.x, self.y, 0, self.sprite_x, self.sprite_y, 16, 16, self.bg_color)
 
 
 class Slot(Rect):
-    def __init__(self, x: int, y: int, len: int):
+    def __init__(self, x: int, y: int, len: int) -> None:
         super().__init__(x, y)
         self.len = len
         self.col = px.COLOR_BROWN
         self.held_item = None
 
-    def display(self):
+    def display(self) -> None:
         px.rectb(self.x, self.y, self.len, self.len, self.col)
 
-    def insert_item(self, item: Image):
+    def insert_item(self, item: Image) -> None:
         self.throw_out_item()
         self.held_item = item
         item.x = self.x + 1
         item.y = self.y + 1
 
-    def throw_out_item(self):
+    def throw_out_item(self) -> None:
         if self.held_item is not None:
             self.held_item.x += 17
             self.held_item.y -= 17
@@ -81,7 +90,7 @@ class Slot(Rect):
 
 
 class Button(Rect):
-    def __init__(self, x: int, y: int, w: int, h: int, action=None):
+    def __init__(self, x: int, y: int, w: int, h: int, action=None) -> None:
         super().__init__(x, y)
         self.w = w
         self.h = h
@@ -92,17 +101,17 @@ class Button(Rect):
         self.text_x = x + (w - tx) / 2
         self.text_y = y + (h - ty) / 2
 
-    def update(self):
+    def update(self) -> None:
         if self.clicked_now():
             self.action()
 
-    def display(self):
+    def display(self) -> None:
         if self.clicked():
             self.col = px.COLOR_GRAY
         else:
             self.col = px.COLOR_BROWN
         self.display_internal()
 
-    def display_internal(self):
+    def display_internal(self) -> None:
         px.rect(self.x, self.y, self.w, self.h, self.col)
         px.text(self.text_x, self.text_y, self.text, px.COLOR_BLACK)

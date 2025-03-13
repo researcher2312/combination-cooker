@@ -1,8 +1,7 @@
 from enum import Enum
 
 from cookbook import Cookbook
-from graphics import Image, Slot, Textbox
-from images import get_image
+from graphics import Image, Slot, Textbox, create_image
 
 cookbook = Cookbook()
 actions = ["cut", "boil", "fry", "bake", "add", "blend"]
@@ -16,14 +15,14 @@ class IngredientType(Enum):
 
 
 class CookingStation:
-    def __init__(self, x, y, n_fields=2) -> None:
+    def __init__(self, x: int, y: int, n_fields: int = 2) -> None:
         self.x = x
         self.y = y
         self.fields = [Slot(x + i * 30, y, 18) for i in range(n_fields)]
         self.result_field = Slot(120, 80, 18)
         self.text = Textbox(x + 32, y + 20, "")
-        self.left = get_image("left").set_coordinates(x + 16, y + 30)
-        self.right = get_image("right").set_coordinates(x + 48, y + 30)
+        self.left = create_image("left", x + 16, y + 30)
+        self.right = create_image("right", x + 48, y + 30)
         self.set_action("boil")
 
     def display(self) -> None:
@@ -41,7 +40,7 @@ class CookingStation:
             self.previous_action()
 
     def set_action(self, action: str) -> None:
-        self.action_image = get_image(action).set_coordinates(self.x + 32, self.y + 30)
+        self.action_image = create_image(action, self.x + 32, self.y + 30)
         self.action = action
         self.text.text = action
 

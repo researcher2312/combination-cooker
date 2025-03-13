@@ -1,14 +1,14 @@
 import pyxel as px
 from cooker import CookingStation
-from drawer import IngredientDrawer
+from drawer import IngredientDrawer, RubbishBin
 from graphics import Button, Image, align_text_right
-from images import get_image
+from images import get_image_data
 from mouse import MouseDrag
 
 
 class App:
     def __init__(self):
-        px.init(160, 120, title="Cooking Game")
+        px.init(160, 120, title="Cooking Game", quit_key=px.KEY_Q)
         px.mouse(True)
         px.load("resources.pyxres")
         self.items: list[Image] = []
@@ -16,6 +16,7 @@ class App:
         self.cooker = CookingStation(40, 40, 3)
         self.button = Button(65, 100, 30, 10, self.check_cookers)
         self.drawer = IngredientDrawer(self.items)
+        self.rubbish_bin = RubbishBin(10, 100, self.items)
         px.playm(0)
         px.run(self.update, self.draw)
 
@@ -26,13 +27,12 @@ class App:
             self.cooker.clear_values(self.items)
 
     def create_item(self, name: str):
-        self.items.append(get_image(name).set_coordinates(40, 35))
+        self.items.append(Image.from_data(get_image_data(name), 40, 35))
 
     def update(self):
-        if px.btnp(px.KEY_Q):
-            px.quit()
         self.button.update()
         self.drawer.update()
+        self.rubbish_bin.update()
         self.clicker.handle_click(px.MOUSE_BUTTON_LEFT)
         self.cooker.update()
         self.cooker.check_item_removed()
@@ -43,6 +43,7 @@ class App:
         self.cooker.display()
         self.button.display()
         self.drawer.display()
+        self.rubbish_bin.display()
         overlapped_block = self.clicker.find_overlapping()
         if overlapped_block is not None:
             align_text_right(150, 110, overlapped_block.name)

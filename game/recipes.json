@@ -10,7 +10,8 @@
         "name": "boiled apple",
         "action": "boil",
         "ingredients": [
-            "apple", "water"
+            "apple",
+            "water"
         ]
     },
     {
@@ -50,7 +51,8 @@
         "name": "apple compote",
         "action": "boil",
         "ingredients": [
-            "sliced apple", "water"
+            "sliced apple",
+            "water"
         ]
     },
     {
@@ -171,7 +173,8 @@
         "name": "boiled chickpeas",
         "action": "boil",
         "ingredients": [
-            "chickpeas", "water"
+            "chickpeas",
+            "water"
         ]
     },
     {
@@ -234,6 +237,21 @@
         "action": "bake",
         "ingredients": [
             "sweet yeast dough"
+        ]
+    },
+    {
+        "name": "bread slice",
+        "action": "cut",
+        "ingredients": [
+            "bread"
+        ]
+    },
+    {
+        "name": "apple bread",
+        "action": "add",
+        "ingredients": [
+            "bread slice",
+            "apple jam"
         ]
     }
 ]

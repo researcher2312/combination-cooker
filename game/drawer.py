@@ -1,6 +1,5 @@
 import pyxel as px
-from graphics import Rect, Image
-from images import get_image
+from graphics import Image, create_image
 
 TAB_PANEL_H = 10
 MAX_TABS = 4
@@ -13,16 +12,40 @@ drawer_products = [
 ]
 
 
-class InfiniteIngredient(Rect):
-    def __init__(self, x, y, name, items) -> None:
-        super().__init__(x, y)
-        self.image = get_image(name).set_coordinates(x, y)
+class RubbishBin:
+    def __init__(self, x: int, y: int, items: list[Image]) -> None:
+        self.image_closed = create_image("rubbish", x, y)
+        self.image_opened = create_image("open rubbish", x, y)
+        self.items = items
+
+    def display(self):
+        if self.image_opened.hovered():
+            self.image_opened.display()
+        else:
+            self.image_closed.display()
+
+    def update(self):
+        # TODO: switch to check only dragged item
+        for item in self.items:
+            if (
+                abs(self.image_opened.x - item.x) < 16
+                and abs(self.image_opened.y - item.y) < 16
+                and not px.btn(px.MOUSE_BUTTON_LEFT)
+            ):
+                self.items.remove(item)
+                break
+                # print(f"item {item.name} deleted")
+
+
+class InfiniteIngredient:
+    def __init__(self, x: int, y: int, name: str, items: list[Image]) -> None:
+        self.image = create_image(name, x, y)
         self.name = name
         self.items_list = items
 
     def update(self) -> None:
-        if self.clicked_now():
-            image = get_image(self.name).set_coordinates(self.x, self.y)
+        if self.image.clicked_now():
+            image = create_image(self.name, self.image.x, self.image.y)
             self.items_list.append(image)
 
     def display(self) -> None:
