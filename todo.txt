@@ -1,4 +1,2 @@
-fix infinite resource clicking bug
-fix infinite resource text display
 fix tab switching to use mouse
 add generic types of food (fruit, vegetables)

@@ -34,19 +34,19 @@ class RubbishBin:
             ):
                 self.items.remove(item)
                 break
-                # print(f"item {item.name} deleted")
 
 
 class InfiniteIngredient:
     def __init__(self, x: int, y: int, name: str, items: list[Image]) -> None:
+        self.x = x
+        self.y = y
         self.image = create_image(name, x, y)
         self.name = name
         self.items_list = items
 
-    def update(self) -> None:
-        if self.image.clicked_now():
-            image = create_image(self.name, self.image.x, self.image.y)
-            self.items_list.append(image)
+    def clone_ingredient(self) -> None:
+        image = create_image(self.name, self.x, self.y)
+        self.items_list.append(image)
 
     def display(self) -> None:
         self.image.display()

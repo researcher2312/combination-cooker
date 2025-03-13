@@ -12,11 +12,11 @@ class App:
         px.mouse(True)
         px.load("resources.pyxres")
         self.items: list[Image] = []
-        self.clicker = MouseDrag(self.items)
         self.cooker = CookingStation(40, 40, 3)
         self.button = Button(65, 100, 30, 10, self.check_cookers)
         self.drawer = IngredientDrawer(self.items)
         self.rubbish_bin = RubbishBin(10, 100, self.items)
+        self.clicker = MouseDrag(self.items, self.drawer.displayed_items)
         px.playm(0)
         px.run(self.update, self.draw)
 
