@@ -1,5 +1,6 @@
-## Untitled food game
-For now it is untitled - a prototype of variable recipe cooking system making it possible to prepare thousands of recipes
+## Combination Cooker
+
+A prototype of variable recipe cooking system making it possible to prepare thousands of recipes (for now it is only 33)
 
 The game is made in Pyxel engine
 
