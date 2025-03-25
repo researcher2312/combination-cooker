@@ -1,4 +1,5 @@
 import csv
+from enum import Enum
 from pathlib import Path
 
 RECIPES_FILENAME = "recipes.csv"
@@ -10,6 +11,32 @@ with open(recipes_file, "rt") as file:
     for row in reader:
         recipe = {"name": row[0], "action": row[1], "ingredients": row[2:]}
         recipes.append(recipe)
+
+
+class IngredientType(Enum):
+    fruit = 1
+    spread = 2
+    drink = 3
+    vegetable = 4
+
+
+class Action(Enum):
+    cut = 0
+    bake = 1
+    boil = 2
+    fry = 3
+    blend = 4
+
+
+class Ingredient:
+    def __init__(self, name: str, type):
+        self.name = name
+
+
+class Recipe:
+    def __init__(self, action: Action, ingredients: list[str]):
+        self.action = action
+        self.ingredients = ingredients
 
 
 class Cookbook:

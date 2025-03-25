@@ -1,17 +1,8 @@
-from enum import Enum
-
 from cookbook import Cookbook
 from graphics import Image, Slot, Textbox, create_image
 
 cookbook = Cookbook()
 actions = ["cut", "boil", "fry", "bake", "add", "blend"]
-
-
-class IngredientType(Enum):
-    fruit = 1
-    spread = 2
-    drink = 3
-    vegetable = 4
 
 
 class CookingStation:
