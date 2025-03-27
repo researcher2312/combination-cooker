@@ -5,8 +5,6 @@ from pathlib import Path
 RECIPES_FILENAME = "recipes.csv"
 recipes_file = Path(__file__).resolve().parent / RECIPES_FILENAME
 
-ingredient_types = {"fruit", "spread", "drink", "vegetable"}
-
 
 class IngredientType(Flag):
     none = 0
@@ -25,6 +23,15 @@ class Action(Enum):
     blend = 5
 
 
+ingredient_types = {"fruit", "spread", "drink", "vegetable"}
+ingredient_attributes = {
+    "apple": IngredientType.fruit,
+    "pear": IngredientType.fruit,
+    "water": IngredientType.drink,
+    "milk": IngredientType.drink,
+}
+
+
 class Ingredient:
     def __init__(
         self, name: str, ingredient_type: IngredientType = IngredientType.none
@@ -36,6 +43,8 @@ class Ingredient:
     def from_string(cls, text: str):
         if text in ingredient_types:
             return cls("", IngredientType[text])
+        elif text in ingredient_attributes:
+            return cls(text, ingredient_attributes[text])
         else:
             return cls(text, IngredientType["none"])
 
@@ -96,6 +105,7 @@ class Recipe:
 class Cookbook:
     def __init__(self):
         self.recipes: list[Recipe] = []
+        # self.ingredients = list[Ingredient] = []
         with open(recipes_file, "rt") as file:
             reader = csv.reader(file)
             for row in reader:

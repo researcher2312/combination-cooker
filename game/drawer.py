@@ -5,7 +5,7 @@ TAB_PANEL_H = 10
 MAX_TABS = 4
 drawer_names = ["fruit", "veggies", "liquids", "dried"]
 drawer_products = [
-    ["apple"],
+    ["apple", "pear"],
     ["chickpeas"],
     ["water", "oil", "milk"],
     ["flour", "sugar", "yeast"],

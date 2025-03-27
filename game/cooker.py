@@ -1,4 +1,4 @@
-from cookbook import Cookbook, Action
+from cookbook import Cookbook, Action, Ingredient
 from graphics import Image, Slot, Textbox, create_image
 
 cookbook = Cookbook()
@@ -66,13 +66,15 @@ class CookingStation:
                 if dx < -8 or dx > 24 or dy < -8 or dy > 24:
                     slot.held_item = None
 
-    def get_item_names(self) -> list[str]:
+    def get_ingredients(self) -> list[str]:
         return [
-            slot.held_item.name for slot in self.fields if slot.held_item is not None
+            Ingredient.from_string(slot.held_item.name)
+            for slot in self.fields
+            if slot.held_item is not None
         ]
 
     def check_recipe(self) -> str:
-        return cookbook.recipe_result(self.action, self.get_item_names())
+        return cookbook.recipe_result(self.action, self.get_ingredients())
 
     def clear_values(self, items: list[Image]) -> None:
         for slot in self.fields:
