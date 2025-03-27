@@ -1,8 +1,8 @@
-from cookbook import Cookbook
+from cookbook import Cookbook, Action
 from graphics import Image, Slot, Textbox, create_image
 
 cookbook = Cookbook()
-actions = ["cut", "boil", "fry", "bake", "add", "blend"]
+actions = [Action.cut, Action.boil, Action.fry, Action.bake, Action.add, Action.blend]
 
 
 class CookingStation:
@@ -14,7 +14,7 @@ class CookingStation:
         self.text = Textbox(x + 32, y + 20, "")
         self.left = create_image("left", x + 16, y + 30)
         self.right = create_image("right", x + 48, y + 30)
-        self.set_action("boil")
+        self.set_action(Action.cut)
 
     def display(self) -> None:
         for field in self.fields:
@@ -30,10 +30,10 @@ class CookingStation:
         if self.left.clicked_now():
             self.previous_action()
 
-    def set_action(self, action: str) -> None:
-        self.action_image = create_image(action, self.x + 32, self.y + 30)
+    def set_action(self, action: Action) -> None:
+        self.action_image = create_image(action.name, self.x + 32, self.y + 30)
         self.action = action
-        self.text.text = action
+        self.text.text = action.name
 
     def next_action(self) -> None:
         action_index = actions.index(self.action)
@@ -72,7 +72,7 @@ class CookingStation:
         ]
 
     def check_recipe(self) -> str:
-        return cookbook.get_combination(self.action, self.get_item_names())
+        return cookbook.recipe_result(self.action, self.get_item_names())
 
     def clear_values(self, items: list[Image]) -> None:
         for slot in self.fields:

@@ -1,6 +1,5 @@
-recipe name,action,ingredient1,ingredient2,ingredient3
-sliced apple,cut,apple
-boiled apple,boil,apple,water
+sliced {fruit},cut,fruit
+boiled {fruit},boil,apple,water
 dough,add,water,flour
 sweet dough,add,water,flour,sugar
 apple pie,bake,sweet dough,sliced apple
@@ -19,11 +18,11 @@ pudding,boil,milk,flour
 apple pudding,add,pudding,sliced apple
 fritters,fry,pancake dough,sliced apple
 apple pancake,add,apple jam,pancake
-powdered sugar,blend,sugar
+castor sugar,blend,sugar
 apple shake,blend,apple,milk
 boiled chickpeas,boil,chickpeas,water
-hummus,blend,boiled chickpea
-sugar pancake,add,pancake,powdered sugar
+hummus,blend,boiled chickpeas
+sugar pancake,add,pancake,castor sugar
 sugar flatbread,add,sugar,flatbread
 hummus,blend,oil,boiled chickpeas
 sweet yeast dough,add,sugar,yeast dough
