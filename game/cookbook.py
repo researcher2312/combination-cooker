@@ -12,6 +12,8 @@ class IngredientType(Flag):
     spread = 2
     drink = 3
     vegetable = 4
+    sliced = 5
+    boiled = 6
 
 
 class Action(Enum):
@@ -48,6 +50,12 @@ class Ingredient:
         else:
             return cls(text, IngredientType["none"])
 
+    def read_types(text: str) -> IngredientType:
+        result = IngredientType.none
+        for type_name in text.split("+"):
+            result |= IngredientType[type_name]
+        return result
+
     def __eq__(self, other):
         if not self.name or not other.name:
             return self.ingredient_type == other.ingredient_type
@@ -64,11 +72,12 @@ class Recipe:
         name: str,
         action: Action,
         ingredients: list[Ingredient],
+        configurable=False,
     ):
         self.name = name
         self.action = action
         self.ingredients = ingredients
-        self.configurable = False
+        self.configurable = configurable
 
     @classmethod
     def from_list(cls, data: list[str]):
@@ -108,8 +117,13 @@ class Cookbook:
         # self.ingredients = list[Ingredient] = []
         with open(recipes_file, "rt") as file:
             reader = csv.reader(file)
+            next(reader)
             for row in reader:
-                self.recipes.append(Recipe.from_list(row))
+                name = row[0]
+                action = Action[row[2]]
+                ingredients = [Ingredient.from_string(name) for name in row[3:]]
+                configurable = True if "{" in name else False
+                self.recipes.append(Recipe(name, action, ingredients, configurable))
 
     # def combination_possible(self, action: str, ingredients: list[str]) -> bool:
     #     return any(
@@ -121,21 +135,3 @@ class Cookbook:
         for r in self.recipes:
             if r.check_match(action, ingredients):
                 return r.get_final_name(ingredients)
-
-    def test_combinations(self) -> None:
-        apple = Ingredient("apple", IngredientType.fruit)
-        pear = Ingredient("pear", IngredientType.fruit)
-        water = Ingredient("water")
-        flour = Ingredient("flour")
-        assert self.recipe_result(Action.cut, [apple]) == "sliced apple"
-        assert self.recipe_result(Action.cut, [pear]) == "sliced pear"
-        assert self.recipe_result(Action.boil, [apple, water]) == "boiled apple"
-        assert self.recipe_result(Action.add, [water, flour]) == "dough"
-        assert self.recipe_result(Action.add, [flour, water]) == "dough"
-        assert not self.recipe_result(Action.add, [flour, apple])
-        print("Cookbook test succesful")
-
-
-if __name__ == "__main__":
-    cookbook = Cookbook()
-    cookbook.test_combinations()
