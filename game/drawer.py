@@ -18,13 +18,13 @@ class RubbishBin:
         self.image_opened = create_image("open rubbish", x, y)
         self.items = items
 
-    def display(self):
+    def display(self) -> None:
         if self.image_opened.hovered():
             self.image_opened.display()
         else:
             self.image_closed.display()
 
-    def update(self):
+    def update(self) -> None:
         # TODO: switch to check only dragged item
         for item in self.items:
             if (

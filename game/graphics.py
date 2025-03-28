@@ -1,4 +1,4 @@
-from typing import Self
+from typing import Self, Callable
 
 import pyxel as px
 from images import ImageData, get_image_data
@@ -8,11 +8,11 @@ def create_image(name: str, x: int = 0, y: int = 0):
     return Image.from_data(get_image_data(name), x, y)
 
 
-def get_text_size(text: str) -> int:
+def get_text_size(text: str) -> tuple[int, int]:
     return (len(text) * 4 - 1, 5)
 
 
-def align_text_right(x: str, y: str, text: str):
+def align_text_right(x: int, y: int, text: str):
     text_x, text_y = get_text_size(text)
     px.text(x - text_x, 110, text, px.COLOR_BLACK)
 
@@ -24,7 +24,7 @@ class Rect:
         self.w = 16
         self.h = 16
 
-    def display(self):
+    def display(self) -> None:
         self.image.display(self.x, self.y)
 
     def set_coordinates(self, x: int, y: int) -> Self:
@@ -90,7 +90,7 @@ class Slot(Rect):
 
 
 class Button(Rect):
-    def __init__(self, x: int, y: int, w: int, h: int, action=None) -> None:
+    def __init__(self, x: int, y: int, w: int, h: int, action: Callable):
         super().__init__(x, y)
         self.w = w
         self.h = h

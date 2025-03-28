@@ -73,7 +73,7 @@ class CookingStation:
             if slot.held_item is not None
         ]
 
-    def check_recipe(self) -> str:
+    def check_recipe(self) -> Ingredient | None:
         return cookbook.recipe_result(self.action, self.get_ingredients())
 
     def clear_values(self, items: list[Image]) -> None:
