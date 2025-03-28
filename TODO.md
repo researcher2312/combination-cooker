@@ -10,11 +10,12 @@
 
 ### In Progress
 
-- [ ] indicate ingredient type in csv  
-- [ ] generate new ingredients with types as a result of other recipe (e.g. spreads)  
+- [ ] add way to generalize sprite usage for generic recipes  
 
 ### Done ✓
 
 - [x] Add new fruit type  
 - [x] add generic types of food (fruit, vegetables)  
+- [x] indicate ingredient type in csv  
+- [x] generate new ingredients with types as a result of other recipe (e.g. spreads)  
 
