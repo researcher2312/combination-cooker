@@ -1,4 +1,5 @@
 import pyxel as px
+from cookbook import Ingredient, ingredients
 from cooker import CookingStation
 from drawer import IngredientDrawer, RubbishBin
 from graphics import Button, Image, align_text_right
@@ -26,7 +27,9 @@ class App:
             self.create_item(result)
             self.cooker.clear_values(self.items)
 
-    def create_item(self, name: str):
+    def create_item(self, ingr: Ingredient):
+        name = ingr.name
+        ingredients[name] = ingr
         self.items.append(Image.from_data(get_image_data(name), 40, 35))
 
     def update(self):

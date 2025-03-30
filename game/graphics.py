@@ -1,4 +1,4 @@
-from typing import Self, Callable
+from typing import Callable, Self
 
 import pyxel as px
 from images import ImageData, get_image_data
@@ -25,7 +25,7 @@ class Rect:
         self.h = 16
 
     def display(self) -> None:
-        self.image.display(self.x, self.y)
+        pass
 
     def set_coordinates(self, x: int, y: int) -> Self:
         self.x, self.y = x, y

@@ -54,7 +54,7 @@ class InfiniteIngredient:
 
 class IngredientDrawer:
     def __init__(self, items: list[Image]) -> None:
-        self.global_items = items
+        self.global_items: list[Image | InfiniteIngredient] = items
         self.selected = 0
         self.keys = [px.KEY_1, px.KEY_2, px.KEY_3, px.KEY_4]
         self.displayed_items: list[InfiniteIngredient] = []

@@ -1,6 +1,7 @@
 import copy
 import csv
-from enum import Enum, Flag
+import re
+from enum import Enum, Flag, auto
 from pathlib import Path
 
 RECIPES_FILENAME = "recipes.csv"
@@ -9,13 +10,13 @@ recipes_file = Path(__file__).resolve().parent / RECIPES_FILENAME
 
 class IngredientType(Flag):
     none = 0
-    fruit = 1
-    spread = 2
-    drink = 3
-    vegetable = 4
-    sliced = 5
-    boiled = 6
-    flat = 7
+    fruit = auto()
+    spread = auto()
+    drink = auto()
+    vegetable = auto()
+    sliced = auto()
+    boiled = auto()
+    flat = auto()
 
 
 def read_types(text: str) -> IngredientType:
@@ -27,6 +28,11 @@ def read_types(text: str) -> IngredientType:
     return result
 
 
+def read_dependencies(text: str) -> list[IngredientType]:
+    return [IngredientType[m] for m in re.findall(r"\{(.*?)\}", text)]
+    # return [IngredientType[re.match(r"{/d+}", text).string]]
+
+
 class Action(Enum):
     cut = 0
     bake = 1
@@ -36,7 +42,6 @@ class Action(Enum):
     blend = 5
 
 
-ingredient_types = {"fruit", "spread", "drink", "vegetable"}
 ingredient_attributes = {
     "apple": IngredientType.fruit,
     "pear": IngredientType.fruit,
@@ -50,27 +55,31 @@ class Ingredient:
         self,
         name: str,
         ingredient_type: IngredientType = IngredientType.none,
-        depends=False,
+        depends_on=IngredientType.none,
     ):
         self.ingredient_type = ingredient_type
         self.name = name
-        self.depends = depends
+        self.depends_on = depends_on
 
     @classmethod
-    def from_string(cls, text: str):
-        if text in ingredient_types:
-            return cls("", IngredientType[text])
-        elif text in ingredient_attributes:
-            return cls(text, ingredient_attributes[text])
+    def from_result_string(cls, text: str):
+        if "{" in text:
+            return cls("", read_types(text[1:-1]))
         else:
             return cls(text, IngredientType["none"])
 
     @classmethod
     def from_parameters(cls, name: str, ingredient_types: str):
-        depends = False
-        if "{" in name:
-            depends = True
+        depends = read_dependencies(name)[0] if "{" in name else IngredientType.none
         return cls(name, read_types(ingredient_types), depends)
+
+    def get_original_name(self) -> str:
+        if IngredientType.sliced in self.ingredient_type:
+            return self.name.replace("sliced ", "")
+        elif IngredientType.boiled in self.ingredient_type:
+            return self.name.replace("boiled ", "")
+        else:
+            return self.name
 
     def __eq__(self, other):
         if not self.name or not other.name:
@@ -102,29 +111,40 @@ class Recipe:
 
     def get_result(self, ingredients: list[Ingredient]) -> Ingredient:
         result = copy.deepcopy(self.result)
-        if result.depends:
-            formatter = {ingr.ingredient_type.name: ingr.name for ingr in ingredients}
-            result.name = result.name.format_map(formatter)
+        for ingr in ingredients:
+            if result.depends_on in ingr.ingredient_type:
+                result.name = result.name.format_map({result.depends_on.name: ingr.get_original_name()})
         return result
 
     def __str__(self):
         return f"{self.result.name} ({self.result.ingredient_type}): {self.action} {self.ingredients}"
 
+    def __repr__(self):
+        return f"{self.result.name} ({self.result.ingredient_type}): {self.action} {self.ingredients}"
 
-class Cookbook:
-    def __init__(self):
-        self.recipes: list[Recipe] = []
-        # self.ingredients = list[Ingredient] = []
-        with open(recipes_file, "rt") as file:
-            reader = csv.reader(file)
-            next(reader)
-            for row in reader:
-                name = row[0]
-                result = Ingredient.from_parameters(name, row[1])
-                action = Action[row[2]]
-                ingredients = [Ingredient.from_string(name) for name in row[3:]]
-                # configurable = True if "{" in name else False
-                self.recipes.append(Recipe(result, action, ingredients))
+
+recipes: list[Recipe] = []
+ingredients = {
+    "apple": Ingredient("apple", IngredientType.fruit),
+    "pear": Ingredient("pear", IngredientType.fruit),
+    "water": Ingredient("water"),
+    "flour": Ingredient("flour"),
+    "milk": Ingredient("milk"),
+    "dough": Ingredient("dough"),
+    "chickpeas": Ingredient("chickpeas"),
+    "sugar": Ingredient("sugar"),
+}
+
+with open(recipes_file, "rt") as file:
+    reader = csv.reader(file)
+    next(reader)
+    for row in reader:
+        name = row[0]
+        result = Ingredient.from_parameters(name, row[1])
+        action = Action[row[2]]
+        ingrs = [Ingredient.from_result_string(name) for name in row[3:]]
+        # configurable = True if "{" in name else False
+        recipes.append(Recipe(result, action, ingrs))
 
     # def combination_possible(self, action: str, ingredients: list[str]) -> bool:
     #     return any(
@@ -132,9 +152,17 @@ class Cookbook:
     #         for r in recipes
     #     )
 
-    def recipe_result(
-        self, action: Action, ingredients: list[Ingredient]
-    ) -> Ingredient | None:
-        for r in self.recipes:
-            if r.check_match(action, ingredients):
-                return r.get_result(ingredients)
+
+def recipe_result(action: Action, ingredients: list[Ingredient]) -> Ingredient | None:
+    for r in recipes:
+        if r.check_match(action, ingredients):
+            return r.get_result(ingredients)
+
+
+# print(list(filter(lambda x: x.result.name == "{fruit} jam", recipes)))
+testflag = IngredientType.boiled | IngredientType.drink
+testflag2 = IngredientType.boiled
+testflag3 = IngredientType.none
+print(testflag)
+print(testflag2)
+print(testflag3)
