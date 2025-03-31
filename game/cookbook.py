@@ -4,6 +4,7 @@ import re
 from enum import Enum, Flag, auto
 from pathlib import Path
 
+(NAME, TYPE, ACTION, GRAPHICS, INGR1, INGR2, INGR3) = range(7)
 RECIPES_FILENAME = "recipes.csv"
 recipes_file = Path(__file__).resolve().parent / RECIPES_FILENAME
 
@@ -56,10 +57,12 @@ class Ingredient:
         name: str,
         ingredient_type: IngredientType = IngredientType.none,
         depends_on=IngredientType.none,
+        graphics = ""
     ):
         self.ingredient_type = ingredient_type
         self.name = name
         self.depends_on = depends_on
+        self.graphics = graphics
 
     @classmethod
     def from_result_string(cls, text: str):
@@ -69,9 +72,9 @@ class Ingredient:
             return cls(text, IngredientType["none"])
 
     @classmethod
-    def from_parameters(cls, name: str, ingredient_types: str):
+    def from_parameters(cls, name: str, ingredient_types: str, graphics: str):
         depends = read_dependencies(name)[0] if "{" in name else IngredientType.none
-        return cls(name, read_types(ingredient_types), depends)
+        return cls(name, read_types(ingredient_types), depends, graphics)
 
     def get_original_name(self) -> str:
         if IngredientType.sliced in self.ingredient_type:
@@ -139,10 +142,10 @@ with open(recipes_file, "rt") as file:
     reader = csv.reader(file)
     next(reader)
     for row in reader:
-        name = row[0]
-        result = Ingredient.from_parameters(name, row[1])
-        action = Action[row[2]]
-        ingrs = [Ingredient.from_result_string(name) for name in row[3:]]
+        name = row[NAME]
+        result = Ingredient.from_parameters(name, row[TYPE], row[GRAPHICS])
+        action = Action[row[ACTION]]
+        ingrs = [Ingredient.from_result_string(name) for name in row[INGR1:] if name]
         # configurable = True if "{" in name else False
         recipes.append(Recipe(result, action, ingrs))
 
@@ -159,10 +162,4 @@ def recipe_result(action: Action, ingredients: list[Ingredient]) -> Ingredient |
             return r.get_result(ingredients)
 
 
-# print(list(filter(lambda x: x.result.name == "{fruit} jam", recipes)))
-testflag = IngredientType.boiled | IngredientType.drink
-testflag2 = IngredientType.boiled
-testflag3 = IngredientType.none
-print(testflag)
-print(testflag2)
-print(testflag3)
+print(list(filter(lambda x: x.result.name == "{fruit} jam", recipes)))
