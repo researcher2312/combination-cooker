@@ -30,5 +30,5 @@ sweet yeast dough,,add,,sugar,yeast dough,
 yeast dough,,add,,water,flour,yeast
 bread,,bake,,yeast dough,,
 yeast cake,,bake,,sweet yeast dough,,
-bread slice,,cut,,bread,,
+bread slice,flat,cut,,bread,,
 {spread} {flat},,add,,{flat},{spread},

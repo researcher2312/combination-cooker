@@ -2,7 +2,6 @@
 
 ### Todo
 
-- [ ] change name producing to `string.Template`
 - [ ] add indicator if this recipe will be succesfull, or one thing needs to be changed
 - [ ] add a separate file to hold ingredient types
 - [ ] add possibility for multiple items as recipe outcomes
@@ -11,10 +10,11 @@
 
 ### In Progress
 
-- [ ] add way to generalize sprite usage for generic recipes
+- [ ] change name producing to `string.Template`
 
 ### Done ✓
 
+- [x] add way to generalize sprite usage for generic recipes
 - [x] Add new fruit type
 - [x] add generic types of food (fruit, vegetables)
 - [x] indicate ingredient type in csv

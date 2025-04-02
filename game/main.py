@@ -30,7 +30,8 @@ class App:
     def create_item(self, ingr: Ingredient):
         name = ingr.name
         ingredients[name] = ingr
-        self.items.append(Image.from_data(get_image_data(name), 40, 35))
+        graphics_name = ingr.graphics_name
+        self.items.append(Image.from_data(get_image_data(graphics_name), name, 40, 35))
 
     def update(self):
         self.button.update()

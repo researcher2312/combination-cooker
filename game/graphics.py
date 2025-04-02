@@ -5,7 +5,7 @@ from images import ImageData, get_image_data
 
 
 def create_image(name: str, x: int = 0, y: int = 0):
-    return Image.from_data(get_image_data(name), x, y)
+    return Image.from_data(get_image_data(name), name, x, y)
 
 
 def get_text_size(text: str) -> tuple[int, int]:
@@ -59,8 +59,8 @@ class Image(Rect):
         self.name = name
 
     @classmethod
-    def from_data(cls, data: ImageData, x: int, y: int):
-        return cls(data.im_x, data.im_y, data.bg_color, data.name, x, y)
+    def from_data(cls, data: ImageData, name: str, x: int, y: int):
+        return cls(data.im_x, data.im_y, data.bg_color, name, x, y)
 
     def display(self) -> None:
         px.blt(self.x, self.y, 0, self.sprite_x, self.sprite_y, 16, 16, self.bg_color)

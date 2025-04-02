@@ -57,7 +57,7 @@ class Ingredient:
         name: str,
         ingredient_type: IngredientType = IngredientType.none,
         depends_on=IngredientType.none,
-        graphics = ""
+        graphics="",
     ):
         self.ingredient_type = ingredient_type
         self.name = name
@@ -75,6 +75,10 @@ class Ingredient:
     def from_parameters(cls, name: str, ingredient_types: str, graphics: str):
         depends = read_dependencies(name)[0] if "{" in name else IngredientType.none
         return cls(name, read_types(ingredient_types), depends, graphics)
+
+    @property
+    def graphics_name(self):
+        return self.graphics if self.graphics else self.name
 
     def get_original_name(self) -> str:
         if IngredientType.sliced in self.ingredient_type:
@@ -116,7 +120,9 @@ class Recipe:
         result = copy.deepcopy(self.result)
         for ingr in ingredients:
             if result.depends_on in ingr.ingredient_type:
-                result.name = result.name.format_map({result.depends_on.name: ingr.get_original_name()})
+                result.name = result.name.format_map(
+                    {result.depends_on.name: ingr.get_original_name()}
+                )
         return result
 
     def __str__(self):
@@ -130,12 +136,13 @@ recipes: list[Recipe] = []
 ingredients = {
     "apple": Ingredient("apple", IngredientType.fruit),
     "pear": Ingredient("pear", IngredientType.fruit),
-    "water": Ingredient("water"),
-    "flour": Ingredient("flour"),
-    "milk": Ingredient("milk"),
-    "dough": Ingredient("dough"),
     "chickpeas": Ingredient("chickpeas"),
+    "water": Ingredient("water"),
+    "oil": Ingredient("oil"),
+    "milk": Ingredient("milk"),
+    "flour": Ingredient("flour"),
     "sugar": Ingredient("sugar"),
+    "yeast": Ingredient("yeast"),
 }
 
 with open(recipes_file, "rt") as file:
