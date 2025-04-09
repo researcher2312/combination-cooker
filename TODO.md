@@ -10,10 +10,11 @@
 
 ### In Progress
 
-- [ ] change name producing to `string.Template`
+- [ ] make it possible to have more dynamic recipe (more than 1 ingredient)
 
 ### Done ✓
 
+- [x] change name producing to `string.Template`
 - [x] add way to generalize sprite usage for generic recipes
 - [x] Add new fruit type
 - [x] add generic types of food (fruit, vegetables)

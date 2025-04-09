@@ -3,6 +3,7 @@ import csv
 import re
 from enum import Enum, Flag, auto
 from pathlib import Path
+from string import Template
 
 (NAME, TYPE, ACTION, GRAPHICS, INGR1, INGR2, INGR3) = range(7)
 RECIPES_FILENAME = "recipes.csv"
@@ -30,8 +31,9 @@ def read_types(text: str) -> IngredientType:
 
 
 def read_dependencies(text: str) -> list[IngredientType]:
-    return [IngredientType[m] for m in re.findall(r"\{(.*?)\}", text)]
-    # return [IngredientType[re.match(r"{/d+}", text).string]]
+    return [IngredientType[m] for m in Template(text).get_identifiers()]
+
+    # return [IngredientType[m] for m in re.findall(r"\{(.*?)\}", text)]
 
 
 class Action(Enum):
@@ -73,11 +75,11 @@ class Ingredient:
 
     @classmethod
     def from_parameters(cls, name: str, ingredient_types: str, graphics: str):
-        depends = read_dependencies(name)[0] if "{" in name else IngredientType.none
+        depends = read_dependencies(name)[0] if "$" in name else IngredientType.none
         return cls(name, read_types(ingredient_types), depends, graphics)
 
     @property
-    def graphics_name(self):
+    def graphics_name(self) -> str:
         return self.graphics if self.graphics else self.name
 
     def get_original_name(self) -> str:
@@ -120,8 +122,10 @@ class Recipe:
         result = copy.deepcopy(self.result)
         for ingr in ingredients:
             if result.depends_on in ingr.ingredient_type:
-                result.name = result.name.format_map(
-                    {result.depends_on.name: ingr.get_original_name()}
+                name_templ = Template(result.name)
+                depend_name = result.depends_on.name or ""
+                result.name = name_templ.substitute(
+                    {depend_name: ingr.get_original_name()}
                 )
         return result
 
@@ -169,4 +173,4 @@ def recipe_result(action: Action, ingredients: list[Ingredient]) -> Ingredient |
             return r.get_result(ingredients)
 
 
-print(list(filter(lambda x: x.result.name == "{fruit} jam", recipes)))
+# print(list(filter(lambda x: x.result.name == "{fruit} jam", recipes)))

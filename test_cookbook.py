@@ -42,7 +42,9 @@ def test_basic_ingredient_creation():
 
 
 def test_parametric_ingredient_creation():
-    assert sliced_apple == Ingredient.from_parameters("sliced apple", "sliced+fruit", "")
+    assert sliced_apple == Ingredient.from_parameters(
+        "sliced apple", "sliced+fruit", ""
+    )
 
 
 def test_string_ingredient_creation():
@@ -59,11 +61,12 @@ def test_type_reader():
 
 
 def test_dependency_reader():
-    assert read_dependencies("{fruit} jam") == [IngredientType.fruit]
-    assert read_dependencies("{flat} x {spread}") == [
+    assert read_dependencies("$fruit jam") == [IngredientType.fruit]
+    assert read_dependencies("$flat x $spread") == [
         IngredientType.flat,
         IngredientType.spread,
     ]
+
 
 def test_original_names():
     assert sliced_apple.get_original_name() == "apple"
