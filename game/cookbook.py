@@ -1,6 +1,5 @@
 import copy
 import csv
-import re
 from enum import Enum, Flag, auto
 from pathlib import Path
 from string import Template
@@ -58,12 +57,12 @@ class Ingredient:
         self,
         name: str,
         ingredient_type: IngredientType = IngredientType.none,
-        depends_on=IngredientType.none,
+        has_dependencies=False,
         graphics="",
     ):
-        self.ingredient_type = ingredient_type
+        self.type = ingredient_type
         self.name = name
-        self.depends_on = depends_on
+        self.has_dependencies = has_dependencies
         self.graphics = graphics
 
     @classmethod
@@ -75,29 +74,29 @@ class Ingredient:
 
     @classmethod
     def from_parameters(cls, name: str, ingredient_types: str, graphics: str):
-        depends = read_dependencies(name)[0] if "$" in name else IngredientType.none
-        return cls(name, read_types(ingredient_types), depends, graphics)
+        has_dependencies = "$" in name
+        return cls(name, read_types(ingredient_types), has_dependencies, graphics)
 
     @property
     def graphics_name(self) -> str:
         return self.graphics if self.graphics else self.name
 
     def get_original_name(self) -> str:
-        if IngredientType.sliced in self.ingredient_type:
+        if IngredientType.sliced in self.type:
             return self.name.replace("sliced ", "")
-        elif IngredientType.boiled in self.ingredient_type:
+        elif IngredientType.boiled in self.type:
             return self.name.replace("boiled ", "")
         else:
             return self.name
 
     def __eq__(self, other):
         if not self.name or not other.name:
-            return self.ingredient_type == other.ingredient_type
+            return self.type == other.type
         else:
             return self.name == other.name
 
     def __repr__(self):
-        return f"{self.name}({self.ingredient_type.name})"
+        return f"{self.name}({self.type.name})"
 
 
 class Recipe:
@@ -120,20 +119,26 @@ class Recipe:
 
     def get_result(self, ingredients: list[Ingredient]) -> Ingredient:
         result = copy.deepcopy(self.result)
-        for ingr in ingredients:
-            if result.depends_on in ingr.ingredient_type:
-                name_templ = Template(result.name)
-                depend_name = result.depends_on.name or ""
-                result.name = name_templ.substitute(
-                    {depend_name: ingr.get_original_name()}
-                )
+        if result.has_dependencies:
+            name_templ = Template(result.name)
+            field_names = name_templ.get_identifiers()
+            field_map = {}
+            for name in field_names:
+                for ingr in ingredients:
+                    if IngredientType[name] in ingr.type:
+                        field_map.update({name: ingr.get_original_name()})
+            result.name = name_templ.substitute(field_map)
         return result
 
     def __str__(self):
-        return f"{self.result.name} ({self.result.ingredient_type}): {self.action} {self.ingredients}"
+        return (
+            f"{self.result.name} ({self.result.type}): {self.action} {self.ingredients}"
+        )
 
     def __repr__(self):
-        return f"{self.result.name} ({self.result.ingredient_type}): {self.action} {self.ingredients}"
+        return (
+            f"{self.result.name} ({self.result.type}): {self.action} {self.ingredients}"
+        )
 
 
 recipes: list[Recipe] = []
@@ -171,6 +176,3 @@ def recipe_result(action: Action, ingredients: list[Ingredient]) -> Ingredient |
     for r in recipes:
         if r.check_match(action, ingredients):
             return r.get_result(ingredients)
-
-
-# print(list(filter(lambda x: x.result.name == "{fruit} jam", recipes)))

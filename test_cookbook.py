@@ -20,6 +20,8 @@ boiled_apple = Ingredient("boiled apple", IngredientType.fruit | IngredientType.
 sliced_pear = Ingredient("sliced pear", IngredientType.fruit | IngredientType.sliced)
 apple_shake = Ingredient("apple shake", IngredientType.drink)
 apple_jam = Ingredient("apple jam", IngredientType.spread)
+bread_slice = Ingredient("bread_slice", IngredientType.flat)
+bread_slice_with_apple_jam = Ingredient("bread_slice with apple jam")
 
 
 def test_basic_recipes():
@@ -36,6 +38,13 @@ def test_compound_recipes():
     assert recipe_result(Action.boil, [sliced_apple, sugar]) == apple_jam
 
 
+def test_double_compound_recipes():
+    assert (
+        recipe_result(Action.add, [apple_jam, bread_slice])
+        == bread_slice_with_apple_jam
+    )
+
+
 def test_basic_ingredient_creation():
     assert apple == Ingredient.from_result_string("apple")
     assert dough == Ingredient.from_result_string("dough")
@@ -48,10 +57,7 @@ def test_parametric_ingredient_creation():
 
 
 def test_string_ingredient_creation():
-    assert (
-        sliced_apple.ingredient_type
-        == Ingredient.from_result_string("{sliced+fruit}").ingredient_type
-    )
+    assert sliced_apple.type == Ingredient.from_result_string("{sliced+fruit}").type
 
 
 def test_type_reader():

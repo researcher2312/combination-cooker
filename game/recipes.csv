@@ -31,4 +31,4 @@ yeast dough,,add,,water,flour,yeast
 bread,,bake,,yeast dough,,
 yeast cake,,bake,,sweet yeast dough,,
 bread slice,flat,cut,,bread,,
-$spread $flat,,add,,{flat},{spread},
+$flat with $spread,,add,jam bread,{flat},{spread},

@@ -10,10 +10,11 @@
 
 ### In Progress
 
-- [ ] make it possible to have more dynamic recipe (more than 1 ingredient)
+- [ ] recipe result image can be dependent on ingredients
 
 ### Done ✓
 
+- [x] make it possible to have more dynamic recipe (more than 1 ingredient)
 - [x] change name producing to `string.Template`
 - [x] add way to generalize sprite usage for generic recipes
 - [x] Add new fruit type
