@@ -11,7 +11,7 @@ image_names = [
     "pancake dough", "hot milk", "pudding", "apple pudding", "pancake",
     "apple pancake", "fritters", "cut", "fry", "boil", "bake", "add", "left",
     "right", "blend", "chickpeas", "powdered sugar", "yeast", "yeast dough",
-    "yeast cake", "sweet yeast dough", "hummus", "oil", "apple shake",
+    "yeast cake", "sweet yeast dough", "hummus", "oil", "fruit shake",
     "bread slice", "jam bread", "rubbish", "open rubbish", "pear", "sliced pear"
 ]  # fmt: skip
 
