@@ -20,21 +20,6 @@ class IngredientType(Flag):
     flat = auto()
 
 
-def read_types(text: str) -> IngredientType:
-    result = IngredientType.none
-    if not text:
-        return result
-    for type_name in text.split("+"):
-        result |= IngredientType[type_name]
-    return result
-
-
-def read_dependencies(text: str) -> list[IngredientType]:
-    return [IngredientType[m] for m in Template(text).get_identifiers()]
-
-    # return [IngredientType[m] for m in re.findall(r"\{(.*?)\}", text)]
-
-
 class Action(Enum):
     cut = 0
     bake = 1
@@ -42,14 +27,6 @@ class Action(Enum):
     fry = 3
     add = 4
     blend = 5
-
-
-ingredient_attributes = {
-    "apple": IngredientType.fruit,
-    "pear": IngredientType.fruit,
-    "water": IngredientType.drink,
-    "milk": IngredientType.drink,
-}
 
 
 class Ingredient:
@@ -117,17 +94,20 @@ class Recipe:
             and all([ingredient in ingredients for ingredient in self.ingredients])
         )
 
+    def get_name_from_template(self, ingredients: list[Ingredient]) -> str:
+        name_templ = Template(self.result.name)
+        field_names = name_templ.get_identifiers()
+        field_map = {}
+        for name in field_names:
+            for ingr in ingredients:
+                if IngredientType[name] in ingr.type:
+                    field_map.update({name: ingr.get_original_name()})
+        return name_templ.substitute(field_map)
+
     def get_result(self, ingredients: list[Ingredient]) -> Ingredient:
         result = copy.deepcopy(self.result)
         if result.has_dependencies:
-            name_templ = Template(result.name)
-            field_names = name_templ.get_identifiers()
-            field_map = {}
-            for name in field_names:
-                for ingr in ingredients:
-                    if IngredientType[name] in ingr.type:
-                        field_map.update({name: ingr.get_original_name()})
-            result.name = name_templ.substitute(field_map)
+            result.name = self.get_name_from_template(ingredients)
         return result
 
     def __str__(self):
@@ -139,6 +119,25 @@ class Recipe:
         return (
             f"{self.result.name} ({self.result.type}): {self.action} {self.ingredients}"
         )
+
+
+def read_types(text: str) -> IngredientType:
+    result = IngredientType.none
+    if not text:
+        return result
+    for type_name in text.split("+"):
+        result |= IngredientType[type_name]
+    return result
+
+
+def read_dependencies(text: str) -> list[IngredientType]:
+    return [IngredientType[m] for m in Template(text).get_identifiers()]
+
+
+def recipe_result(action: Action, ingredients: list[Ingredient]) -> Ingredient | None:
+    for r in recipes:
+        if r.check_match(action, ingredients):
+            return r.get_result(ingredients)
 
 
 recipes: list[Recipe] = []
@@ -162,17 +161,4 @@ with open(recipes_file, "rt") as file:
         result = Ingredient.from_parameters(name, row[TYPE], row[GRAPHICS])
         action = Action[row[ACTION]]
         ingrs = [Ingredient.from_result_string(name) for name in row[INGR1:] if name]
-        # configurable = True if "{" in name else False
         recipes.append(Recipe(result, action, ingrs))
-
-    # def combination_possible(self, action: str, ingredients: list[str]) -> bool:
-    #     return any(
-    #         r["action"] == action and sorted(r["ingredients"]) == sorted(ingredients)
-    #         for r in recipes
-    #     )
-
-
-def recipe_result(action: Action, ingredients: list[Ingredient]) -> Ingredient | None:
-    for r in recipes:
-        if r.check_match(action, ingredients):
-            return r.get_result(ingredients)
