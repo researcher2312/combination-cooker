@@ -36,28 +36,12 @@ class RubbishBin:
                 break
 
 
-class InfiniteIngredient:
-    def __init__(self, x: int, y: int, name: str, items: list[Image]) -> None:
-        self.x = x
-        self.y = y
-        self.image = create_image(name, x, y)
-        self.name = name
-        self.items_list = items
-
-    def clone_ingredient(self) -> None:
-        image = create_image(self.name, self.x, self.y)
-        self.items_list.append(image)
-
-    def display(self) -> None:
-        self.image.display()
-
-
 class IngredientDrawer:
     def __init__(self, items: list[Image]) -> None:
-        self.global_items: list[Image | InfiniteIngredient] = items
+        self.global_items: list[Image] = items
         self.selected = 0
         self.keys = [px.KEY_1, px.KEY_2, px.KEY_3, px.KEY_4]
-        self.displayed_items: list[InfiniteIngredient] = []
+        self.displayed_items: list[Image] = []
         self.setup_products()
 
     def display(self) -> None:
@@ -70,11 +54,24 @@ class IngredientDrawer:
             item.display()
 
     def update(self) -> None:
+        self.check_mouse_press_on_tabs()
+        self.check_keyboard_press_on_tabs()
+        self.check_mouse_press_on_ingredients()
+
+    def check_mouse_press_on_ingredients(self) -> None:
+        for item in self.displayed_items:
+            if item.clicked_now():
+                image = create_image(item.name, item.x, item.y)
+                self.global_items.append(image)
+
+    def check_mouse_press_on_tabs(self) -> None:
         if px.btnp(px.MOUSE_BUTTON_LEFT) and px.mouse_y < TAB_PANEL_H:
             for i in range(MAX_TABS):
                 if px.mouse_x > i * 40 and px.mouse_x < (i + 1) * 40:
                     self.selected = i
                     self.setup_products()
+
+    def check_keyboard_press_on_tabs(self) -> None:
         for key_n, key in enumerate(self.keys):
             if px.btnp(key):
                 self.selected = key_n
@@ -93,15 +90,6 @@ class IngredientDrawer:
             px.text(i * 40 + 5, 3, name, px.COLOR_BLACK)
 
     def setup_products(self) -> None:
-        # self.remove_from_global()
         self.displayed_items.clear()
         for n, product_name in enumerate(drawer_products[self.selected]):
-            self.displayed_items.append(
-                InfiniteIngredient(n * 20 + 5, 13, product_name, self.global_items)
-                # get_image(product_name).set_coordinates(n * 20 + 5, 13)
-            )
-        # self.global_items.extend(self.displayed_items)
-
-    def remove_from_global(self) -> None:
-        for item in self.displayed_items:
-            self.global_items.remove(item)
+            self.displayed_items.append(create_image(product_name, n * 20 + 5, 13))

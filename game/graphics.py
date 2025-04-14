@@ -1,18 +1,15 @@
-from typing import Callable, Self
+from collections.abc import Callable
+from typing import Self
 
 import pyxel as px
 from images import ImageData, get_image_data
-
-
-def create_image(name: str, x: int = 0, y: int = 0):
-    return Image.from_data(get_image_data(name), name, x, y)
 
 
 def get_text_size(text: str) -> tuple[int, int]:
     return (len(text) * 4 - 1, 5)
 
 
-def align_text_right(x: int, y: int, text: str):
+def align_text_right(x: int, y: int, text: str) -> None:
     text_x, text_y = get_text_size(text)
     px.text(x - text_x, 110, text, px.COLOR_BLACK)
 
@@ -46,7 +43,7 @@ class Textbox(Rect):
         super().__init__(x, y)
         self.text = text
 
-    def display(self):
+    def display(self) -> None:
         px.text(self.x, self.y, self.text, px.COLOR_BLACK)
 
 
@@ -59,11 +56,15 @@ class Image(Rect):
         self.name = name
 
     @classmethod
-    def from_data(cls, data: ImageData, name: str, x: int, y: int):
+    def from_data(cls, data: ImageData, name: str, x: int, y: int) -> Self:
         return cls(data.im_x, data.im_y, data.bg_color, name, x, y)
 
     def display(self) -> None:
         px.blt(self.x, self.y, 0, self.sprite_x, self.sprite_y, 16, 16, self.bg_color)
+
+
+def create_image(name: str, x: int = 0, y: int = 0) -> Image:
+    return Image.from_data(get_image_data(name), name, x, y)
 
 
 class Slot(Rect):
