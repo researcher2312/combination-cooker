@@ -45,6 +45,10 @@ def test_double_compound_recipes():
     )
 
 
+def test_compound_recipes_graphics_name():
+    assert recipe_result(Action.add, [apple_jam, bread_slice]).graphics == "jam bread"
+
+
 def test_basic_ingredient_creation():
     assert apple == Ingredient.from_result_string("apple")
     assert dough == Ingredient.from_result_string("dough")

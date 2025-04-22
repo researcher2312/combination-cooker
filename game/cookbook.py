@@ -34,12 +34,10 @@ class Ingredient:
         self,
         name: str,
         ingredient_type: IngredientType = IngredientType.none,
-        has_dependencies=False,
         graphics="",
     ):
         self.type = ingredient_type
         self.name = name
-        self.has_dependencies = has_dependencies
         self.graphics = graphics
 
     @classmethod
@@ -51,12 +49,19 @@ class Ingredient:
 
     @classmethod
     def from_parameters(cls, name: str, ingredient_types: str, graphics: str):
-        has_dependencies = "$" in name
-        return cls(name, read_types(ingredient_types), has_dependencies, graphics)
+        return cls(name, read_types(ingredient_types), graphics)
 
     @property
     def graphics_name(self) -> str:
-        return self.graphics if self.graphics else self.name
+        return self.name if not self.graphics else self.graphics
+
+    @property
+    def has_dependencies(self) -> bool:
+        return "$" in self.name
+
+    @property
+    def has_graphic_dependencies(self) -> bool:
+        return "$" in self.graphics
 
     def get_original_name(self) -> str:
         if IngredientType.sliced in self.type:
@@ -94,20 +99,12 @@ class Recipe:
             and all([ingredient in ingredients for ingredient in self.ingredients])
         )
 
-    def get_name_from_template(self, ingredients: list[Ingredient]) -> str:
-        name_templ = Template(self.result.name)
-        field_names = name_templ.get_identifiers()
-        field_map = {}
-        for name in field_names:
-            for ingr in ingredients:
-                if IngredientType[name] in ingr.type:
-                    field_map.update({name: ingr.get_original_name()})
-        return name_templ.substitute(field_map)
-
     def get_result(self, ingredients: list[Ingredient]) -> Ingredient:
         result = copy.deepcopy(self.result)
         if result.has_dependencies:
-            result.name = self.get_name_from_template(ingredients)
+            result.name = get_name_from_template(self.result.name, ingredients)
+        if result.has_graphic_dependencies:
+            result.graphics = get_name_from_template(self.result.graphics, ingredients)
         return result
 
     def __str__(self):
@@ -130,6 +127,17 @@ def read_types(text: str) -> IngredientType:
     return result
 
 
+def get_name_from_template(text: str, ingredients: list[Ingredient]) -> str:
+    name_templ = Template(text)
+    field_names = name_templ.get_identifiers()
+    field_map = {}
+    for name in field_names:
+        for ingr in ingredients:
+            if IngredientType[name] in ingr.type:
+                field_map.update({name: ingr.get_original_name()})
+    return name_templ.substitute(field_map)
+
+
 def read_dependencies(text: str) -> list[IngredientType]:
     return [IngredientType[m] for m in Template(text).get_identifiers()]
 
@@ -145,9 +153,9 @@ ingredients = {
     "apple": Ingredient("apple", IngredientType.fruit),
     "pear": Ingredient("pear", IngredientType.fruit),
     "chickpeas": Ingredient("chickpeas"),
-    "water": Ingredient("water"),
+    "water": Ingredient("water", IngredientType.drink),
     "oil": Ingredient("oil"),
-    "milk": Ingredient("milk"),
+    "milk": Ingredient("milk", IngredientType.drink),
     "flour": Ingredient("flour"),
     "sugar": Ingredient("sugar"),
     "yeast": Ingredient("yeast"),

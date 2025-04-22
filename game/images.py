@@ -2,17 +2,19 @@ import pyxel as px
 
 DEFAULT_BG = px.COLOR_DARK_BLUE
 special_background = {"water": px.COLOR_PINK, "sugar": px.COLOR_PINK}
+# TODO remove the alialisng mechanism
 image_alias = {"boiled apple": "apple", "boiled chickpeas": "chickpeas"}
 
 image_names = [
     "bread", "apple", "flour", "sliced apple", "milk", "sugar", "water",
-    "dough", "sweet dough", "apple pie", "caramel", "jam", "cookies",
-    "flatbread", "apple chips", "compote", "caramelized apple",
+    "dough", "fruit yeast cake", "fruit pie", "caramel", "jam", "cookies",
+    "flatbread", "fruit chips", "compote", "caramelized apple",
     "pancake dough", "hot milk", "pudding", "apple pudding", "pancake",
-    "apple pancake", "fritters", "cut", "fry", "boil", "bake", "add", "left",
-    "right", "blend", "chickpeas", "powdered sugar", "yeast", "yeast dough",
+    "jam pancake", "fritters", "cut", "fry", "boil", "bake", "add", "left",
+    "right", "blend", "chickpeas", "castor sugar", "yeast", "fruit salad",
     "yeast cake", "sweet yeast dough", "hummus", "oil", "fruit shake",
-    "bread slice", "jam bread", "rubbish", "open rubbish", "pear", "sliced pear"
+    "bread slice", "jam bread", "rubbish", "open rubbish", "pear", "sliced pear",
+    "jam flatbread", ""
 ]  # fmt: skip
 
 
